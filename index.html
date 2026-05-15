@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>古典音乐入门指南</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
+
+  :root {
+    --bg: #fcfcfa;
+    --text: #1a1a1a;
+    --text-2: #555;
+    --text-3: #999;
+    --line: #e5e5e5;
+    --accent: #b4462f;
+    --hover: #f8f7f5;
+    --serif: 'Noto Serif SC', Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { max-width: 640px; margin: 0 auto; padding: 60px 24px 80px; }
+
+  header { margin-bottom: 56px; text-align: center; }
+  header h1 { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 12px; }
+  header .subtitle { color: var(--text-3); font-size: 0.88rem; letter-spacing: 0.04em; }
+  .divider { width: 32px; height: 1px; background: var(--text); margin: 20px auto; }
+
+  .stage { margin-bottom: 48px; }
+  .stage-head { display: flex; align-items: baseline; gap: 16px; cursor: pointer; padding: 12px 0; border-bottom: 1px solid var(--line); user-select: none; }
+  .stage-head:hover .stage-title { color: var(--accent); }
+  .stage-n { font-family: var(--serif); font-size: 2.4rem; font-weight: 700; color: var(--text-3); line-height: 1; flex-shrink: 0; opacity: 0.35; }
+  .stage.open .stage-n { opacity: 0.6; }
+  .stage-meta { flex: 1; }
+  .stage-title { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; transition: color 0.2s; }
+  .stage-sub { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+  .stage-toggle { font-size: 0.7rem; color: var(--text-3); transition: transform 0.3s; align-self: center; }
+  .stage.open .stage-toggle { transform: rotate(180deg); }
+  .stage-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s ease; }
+  .stage.open .stage-body { grid-template-rows: 1fr; }
+  .stage-body-inner { overflow: hidden; }
+  .tracks { padding-top: 16px; }
+
+  .track { border-bottom: 1px solid var(--line); }
+  .track:last-child { border-bottom: none; }
+  .track-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; cursor: pointer; transition: background 0.15s; }
+  .track-row:hover { background: var(--hover); margin: 0 -12px; padding: 14px 12px; border-radius: 6px; }
+
+  .cover {
+    width: 52px; height: 52px; border-radius: 6px; flex-shrink: 0;
+    overflow: hidden; position: relative; background: #ddd;
+  }
+  .cover img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .cover-fallback {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 1.3rem; font-weight: 700;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .track-info { flex: 1; min-width: 0; }
+  .track-cn { font-size: 0.92rem; font-weight: 600; line-height: 1.3; }
+  .track-by { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
+  .track-dur { font-size: 0.72rem; color: var(--text-3); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .track-chevron { font-size: 0.6rem; color: var(--text-3); transition: transform 0.25s; flex-shrink: 0; }
+  .track.open .track-chevron { transform: rotate(90deg); }
+
+  .track-detail { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease; }
+  .track.open .track-detail { grid-template-rows: 1fr; }
+  .track-detail-inner { overflow: hidden; }
+  .detail-content { padding: 0 0 20px 66px; }
+  .detail-en { font-size: 0.82rem; color: var(--text-2); font-style: italic; margin-bottom: 12px; line-height: 1.5; }
+  .detail-section { margin-bottom: 12px; }
+  .detail-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 3px; }
+  .detail-text { font-size: 0.82rem; color: var(--text-2); line-height: 1.6; }
+  .detail-tip { font-size: 0.82rem; color: var(--text); background: #f5f4f0; padding: 8px 12px; border-radius: 6px; border-left: 2px solid var(--accent); margin: 12px 0; }
+  .apple-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--accent); text-decoration: none; padding: 6px 0; transition: opacity 0.15s; }
+  .apple-link:hover { opacity: 0.7; }
+  .apple-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .tips { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .tips h3 { font-family: var(--serif); font-size: 1rem; margin-bottom: 16px; }
+  .tips li { font-size: 0.85rem; color: var(--text-2); margin-bottom: 8px; margin-left: 18px; }
+
+  .glossary { margin-top: 32px; padding-top: 32px; border-top: 1px solid var(--line); }
+  .glossary h3 { font-family: var(--serif); font-size: 1rem; margin-bottom: 16px; }
+  .glossary .intro { font-size: 0.82rem; color: var(--text-2); margin-bottom: 14px; }
+  .tempo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .tempo-item { padding: 8px 0; }
+  .tempo-word { font-style: italic; font-size: 0.85rem; font-weight: 600; }
+  .tempo-meaning { font-size: 0.75rem; color: var(--text-3); }
+
+  @media (max-width: 480px) {
+    .page { padding: 40px 16px 60px; }
+    header h1 { font-size: 1.5rem; }
+    .cover { width: 44px; height: 44px; }
+    .detail-content { padding-left: 58px; }
+    .stage-n { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header>
+    <h1>古典音乐入门指南</h1>
+    <div class="divider"></div>
+    <p class="subtitle">28 首经典，从零开始，循序渐进</p>
+  </header>
+  <main id="app"></main>
+</div>
+
+<script>
+var COMPOSERS = {
+  vivaldi:      { initial: "V", color: "#c2785c", img: "classical-music-guide-images/vivaldi.jpg", bio: "安东尼奥·维瓦尔第（1678-1741），意大利巴洛克时期作曲家、小提琴家，被誉为「红发神父」。他的音乐充满活力与色彩，对协奏曲体裁影响深远。" },
+  pachelbel:    { initial: "P", color: "#a08870", img: "classical-music-guide-images/pachelbel.jpg", bio: "约翰·帕赫贝尔（1653-1706），德国巴洛克作曲家、管风琴家。他的 D 大调卡农是世界上被演奏次数最多的古典作品之一。" },
+  beethoven:    { initial: "B", color: "#6b6b6b", img: "classical-music-guide-images/beethoven.jpg", bio: "路德维希·范·贝多芬（1770-1827），德国作曲家，古典与浪漫主义的桥梁。晚年完全失聪仍创作出第九交响曲，被认为是西方音乐史上最伟大的作曲家之一。" },
+  dvorak:       { initial: "D", color: "#7a9a6e", img: "classical-music-guide-images/dvorak.jpg", bio: "安东尼·德沃夏克（1841-1904），捷克作曲家，民族乐派代表。曾任纽约国家音乐学院院长，「自新世界」交响曲融合了美国民间音乐与波西米亚乡愁。" },
+  saintsaens:   { initial: "S", color: "#8a7a9e", img: "classical-music-guide-images/saintsaens.jpg", bio: "卡米尔·圣-桑（1835-1921），法国作曲家、管风琴家、钢琴家。他是音乐神童，2 岁写曲，风格优雅精致，涉猎交响曲、协奏曲、歌剧等众多体裁。" },
+  grieg:        { initial: "G", color: "#5e8a8a", img: "classical-music-guide-images/grieg.jpg", bio: "爱德华·格里格（1843-1907），挪威作曲家，北欧浪漫主义代表。他的音乐融入挪威民间旋律，充满自然风光和北欧气质。" },
+  mozart:       { initial: "M", color: "#c4956a", img: "classical-music-guide-images/mozart.jpg", bio: "沃尔夫冈·阿马德乌斯·莫扎特（1756-1791），奥地利作曲家，古典主义巅峰。5 岁作曲、6 岁巡演，短短 35 年人生留下 600 多部作品，音乐兼具优美与深度。" },
+  tchaikovsky:  { initial: "T", color: "#7a6e8e", img: "classical-music-guide-images/tchaikovsky.jpg", bio: "彼得·伊里奇·柴可夫斯基（1840-1893），俄国浪漫主义作曲家。他的音乐旋律丰富、情感浓烈，芭蕾舞剧《天鹅湖》《胡桃夹子》举世闻名。" },
+  mendelssohn:  { initial: "M", color: "#6a8e7a", img: "classical-music-guide-images/mendelssohn.jpg", bio: "费利克斯·门德尔松（1809-1847），德国浪漫主义作曲家。出身富裕家庭，音乐明亮典雅，还重新发掘了巴赫《马太受难曲》，拯救了巴赫的历史地位。" },
+  schubert:     { initial: "S", color: "#9a8a6e", img: "classical-music-guide-images/schubert.jpg", bio: "弗朗茨·舒伯特（1797-1828），奥地利作曲家，「艺术歌曲之王」。31 岁去世前留下超 600 首艺术歌曲和大量器乐作品，旋律天赋无与伦比。" },
+  rachmaninoff: { initial: "R", color: "#5a6a7e", img: "classical-music-guide-images/rachmaninoff.jpg", bio: "谢尔盖·拉赫玛尼诺夫（1873-1943），俄国晚期浪漫主义作曲家、钢琴家。拥有超大手掌跨度，他的钢琴协奏曲以宏大深情著称，是浪漫主义的最后辉煌。" },
+  bach:         { initial: "B", color: "#8a7a5e", img: "classical-music-guide-images/bach.jpg", bio: "约翰·塞巴斯蒂安·巴赫（1685-1750），德国巴洛克音乐大师，被尊为「音乐之父」。他将复调音乐发展到极致，作品结构精密如建筑，又饱含深邃的精神力量。" },
+  debussy:      { initial: "D", color: "#6e8a9a", img: "classical-music-guide-images/debussy.jpg", bio: "克洛德·德彪西（1862-1918），法国印象派作曲家。他打破传统和声规则，用音乐描绘光影与氛围，开创了 20 世纪音乐的全新语言。" },
+  smetana:      { initial: "S", color: "#7a8e5e", img: "classical-music-guide-images/smetana.jpg", bio: "贝德里赫·斯美塔那（1824-1884），捷克民族乐派奠基人。晚年完全失聪后仍创作了交响诗套曲《我的祖国》，其中《沃尔塔瓦河》是捷克的精神象征。" },
+  holst:        { initial: "H", color: "#5e6e8a", img: "classical-music-guide-images/holst.jpg", bio: "古斯塔夫·霍尔斯特（1874-1934），英国作曲家。《行星组曲》是他最著名的作品，每颗行星对应不同的音乐性格，深刻影响了后世的电影配乐。" },
+  mahler:       { initial: "M", color: "#6b5e7a", img: "classical-music-guide-images/mahler.jpg", bio: "古斯塔夫·马勒（1860-1911），奥地利晚期浪漫主义作曲家、指挥家。他的交响曲规模宏大、情感极端，探讨生死与存在的终极问题。" },
+  brahms:       { initial: "B", color: "#7e6e5e", img: "classical-music-guide-images/brahms.jpg", bio: "约翰内斯·勃拉姆斯（1833-1897），德国浪漫主义作曲家。他被视为贝多芬的继承者，音乐深沉内敛，在古典形式中注入浪漫情感。" },
+  shostakovich: { initial: "S", color: "#5e5e6e", img: "classical-music-guide-images/shostakovich.jpg", bio: "德米特里·肖斯塔科维奇（1906-1975），苏联作曲家。在斯大林高压统治下坚持创作，他的交响曲充满讽刺、抗争与悲剧性，是 20 世纪最重要的作曲家之一。" },
+  wagner:       { initial: "W", color: "#8a5e5e", img: "classical-music-guide-images/wagner.jpg", bio: "理查德·瓦格纳（1813-1883），德国歌剧革新者。他创造了「整体艺术作品」理念，歌剧《尼伯龙根的指环》是长达 15 小时的四联剧，改变了音乐戏剧的历史。" },
+  chopin:       { initial: "C", color: "#7a8a9a", img: "classical-music-guide-images/chopin.jpg", bio: "弗雷德里克·肖邦（1810-1849），波兰作曲家、钢琴家，「钢琴诗人」。他几乎只为钢琴作曲，将这件乐器的表现力推向极致，夜曲、圆舞曲、练习曲皆为传世经典。" }
+};
+
+var PERFORMERS = {
+  "Nigel Kennedy / I Musici": "Kennedy 以叛逆个性闻名，I Musici 是意大利顶尖室内乐团",
+  "Academy of St Martin in the Fields": "英国顶级室内乐团，由 Neville Marriner 创立",
+  "Daniel Barenboim": "阿根廷裔以色列钢琴家、指挥家，贝多芬权威诠释者",
+  "Karajan / Berliner Philharmoniker": "赫伯特·冯·卡拉扬，20 世纪最具影响力的指挥家，执掌柏林爱乐 35 年",
+  "Yo-Yo Ma": "马友友，华裔美国大提琴家，当代最知名的古典音乐家之一",
+  "Karl Bohm / Wiener Philharmoniker": "奥地利指挥大师，莫扎特与施特劳斯的权威诠释者",
+  "Carlos Kleiber / Wiener Philharmoniker": "被誉为指挥中的指挥，极度完美主义，录音极少但每张皆为传奇",
+  "Carlos Kleiber": "被誉为指挥中的指挥，极度完美主义，录音极少但每张皆为传奇",
+  "Argerich / Abbado": "阿格里奇是阿根廷钢琴女王，阿巴多是意大利诗意指挥大师",
+  "Anne-Sophie Mutter": "德国小提琴家，卡拉扬的爱徒，当代最杰出的小提琴家之一",
+  "Zimerman / Ozawa": "齐默尔曼是波兰钢琴大师，小�的征尔是日本传奇指挥家",
+  "Karl Richter": "德国管风琴家、指挥家，巴赫音乐的权威诠释者",
+  "Zimerman": "克里斯蒂安·齐默尔曼，波兰钢琴家，以极度严谨和完美的音色著称",
+  "Kubelik / Czech Philharmonic": "捷克指挥家库贝利克与捷克爱乐，演绎本国作品最为地道",
+  "Furtwangler 1951 Bayreuth": "富特文格勒 1951 年拜罗伊特现场，公认最伟大的贝九录音",
+  "Bernstein / New York Philharmonic": "伯恩斯坦是美国传奇指挥家、作曲家，指挥风格热情奔放",
+  "Mravinsky / Leningrad Philharmonic": "穆拉文斯基执掌列宁格勒爱乐 50 年，肖斯塔科维奇多部交响曲的首演指挥",
+  "Solti / Vienna Philharmonic": "匈牙利指挥家索尔蒂，史上获格莱美奖最多的古典音乐家",
+  "Barenboim / Horowitz": "巴伦博伊姆注重结构，霍洛维茨注重戏剧性，各有千秋",
+  "Rubinstein / Zimerman": "鲁宾斯坦是肖邦演绎的黄金标准，齐默尔曼则更精雕细琢",
+  "Alfred Brendel": "奥地利钢琴家，以深邃的知性诠释著称，舒伯特和贝多芬的权威",
+  "Perlman / Argerich": "帕尔曼是以色列小提琴大师，与阿格里奇的合作火花四溅"
+};
+
+var STAGES = [
+  {
+    id: 1, title: "旋律优美，耳熟能详", desc: "培养兴趣 · 这些曲子你大概率听过",
+    tracks: [
+      { cn: "四季 · 春", en: "The Four Seasons, Op. 8 - Concerto No. 1 \"Spring\", RV 269", composer: "vivaldi", composerLabel: "维瓦尔第 Vivaldi", duration: "10 min", tip: "欢快明亮，零门槛的巴洛克名作", search: "Vivaldi Four Seasons Spring", recommend: "Nigel Kennedy / I Musici" },
+      { cn: "D 大调卡农", en: "Canon and Gigue in D Major", composer: "pachelbel", composerLabel: "帕赫贝尔 Pachelbel", duration: "5 min", tip: "地球上最治愈的旋律之一", search: "Pachelbel Canon in D", recommend: "Academy of St Martin in the Fields" },
+      { cn: "致爱丽丝", en: "Fur Elise, WoO 59", composer: "beethoven", composerLabel: "贝多芬 Beethoven", duration: "3 min", tip: "钢琴入门第一课", search: "Beethoven Fur Elise", recommend: "Daniel Barenboim" },
+      { cn: "自新世界 · 第二乐章", en: "Symphony No. 9 \"From the New World\", Op. 95 - II. Largo", composer: "dvorak", composerLabel: "德沃夏克 Dvorak", duration: "12 min", tip: "思乡的旋律，极其感人", search: "Dvorak New World Symphony Largo", recommend: "Karajan / Berliner Philharmoniker" },
+      { cn: "动物狂欢节 · 天鹅", en: "The Carnival of the Animals - The Swan", composer: "saintsaens", composerLabel: "圣-桑 Saint-Saens", duration: "3 min", tip: "大提琴最美的旋律", search: "Saint-Saens Carnival Animals Swan", recommend: "Yo-Yo Ma" },
+      { cn: "培尔金特 · 晨曲", en: "Peer Gynt Suite No. 1, Op. 46 - Morning Mood", composer: "grieg", composerLabel: "格里格 Grieg", duration: "4 min", tip: "像日出一样自然舒展", search: "Grieg Peer Gynt Morning Mood", recommend: "Karajan / Berliner Philharmoniker" }
+    ]
+  },
+  {
+    id: 2, title: "完整作品入门", desc: "感受乐章的叙事结构",
+    tracks: [
+      { cn: "第 40 号交响曲", en: "Symphony No. 40 in G minor, K. 550", composer: "mozart", composerLabel: "莫扎特 Mozart", duration: "25 min", tip: "莫扎特最戏剧性的交响曲", search: "Mozart Symphony No 40", recommend: "Karl Bohm / Wiener Philharmoniker" },
+      { cn: "第五交响曲「命运」", en: "Symphony No. 5 in C minor, Op. 67", composer: "beethoven", composerLabel: "贝多芬 Beethoven", duration: "33 min", tip: "命运在敲门 — 从黑暗走向光明", search: "Beethoven Symphony No 5", recommend: "Carlos Kleiber / Wiener Philharmoniker" },
+      { cn: "第一钢琴协奏曲", en: "Piano Concerto No. 1 in B-flat minor, Op. 23", composer: "tchaikovsky", composerLabel: "柴可夫斯基 Tchaikovsky", duration: "35 min", tip: "开头就炸裂，极其震撼", search: "Tchaikovsky Piano Concerto 1", recommend: "Argerich / Abbado" },
+      { cn: "小提琴协奏曲", en: "Violin Concerto in E minor, Op. 64", composer: "mendelssohn", composerLabel: "门德尔松 Mendelssohn", duration: "25 min", tip: "小提琴协奏曲中最优雅的", search: "Mendelssohn Violin Concerto", recommend: "Anne-Sophie Mutter" },
+      { cn: "第八交响曲「未完成」", en: "Symphony No. 8 \"Unfinished\", D. 759", composer: "schubert", composerLabel: "舒伯特 Schubert", duration: "25 min", tip: "只有两个乐章，神秘而忧伤", search: "Schubert Unfinished Symphony", recommend: "Carlos Kleiber" },
+      { cn: "第二钢琴协奏曲", en: "Piano Concerto No. 2 in C minor, Op. 18", composer: "rachmaninoff", composerLabel: "拉赫玛尼诺夫 Rachmaninoff", duration: "35 min", tip: "浪漫主义巅峰，电影感极强", search: "Rachmaninoff Piano Concerto 2", recommend: "Zimerman / Ozawa" }
+    ]
+  },
+  {
+    id: 3, title: "扩展风格与时代", desc: "巴洛克 · 印象派 · 民族乐派",
+    tracks: [
+      { cn: "G 弦上的咏叹调", en: "Air on the G String, BWV 1068", composer: "bach", composerLabel: "巴赫 J.S. Bach", duration: "5 min", tip: "巴赫入门，纯净庄严", search: "Bach Air on G String", recommend: "Karl Richter" },
+      { cn: "大提琴组曲第一号 · 前奏曲", en: "Cello Suite No. 1 in G Major, BWV 1007 - Prelude", composer: "bach", composerLabel: "巴赫 J.S. Bach", duration: "3 min", tip: "一把大提琴的宇宙", search: "Bach Cello Suite 1 Prelude", recommend: "Yo-Yo Ma" },
+      { cn: "月光", en: "Clair de Lune, from Suite bergamasque, L. 75", composer: "debussy", composerLabel: "德彪西 Debussy", duration: "5 min", tip: "印象派代表，像水彩画", search: "Debussy Clair de Lune", recommend: "Zimerman" },
+      { cn: "牧神午后前奏曲", en: "Prelude a l'apres-midi d'un faune, L. 86", composer: "debussy", composerLabel: "德彪西 Debussy", duration: "10 min", tip: "现代音乐的起点", search: "Debussy Prelude Afternoon Faun", recommend: "Karajan / Berliner Philharmoniker" },
+      { cn: "沃尔塔瓦河", en: "Vltava (The Moldau), from Ma vlast", composer: "smetana", composerLabel: "斯美塔那 Smetana", duration: "12 min", tip: "用音乐画一条河，画面感极强", search: "Smetana Vltava Moldau", recommend: "Kubelik / Czech Philharmonic" },
+      { cn: "行星组曲 · 木星", en: "The Planets, Op. 32 - IV. Jupiter", composer: "holst", composerLabel: "霍尔斯特 Holst", duration: "8 min", tip: "宏大壮丽，星球大战的灵感来源", search: "Holst Planets Jupiter", recommend: "Karajan / Berliner Philharmoniker" }
+    ]
+  },
+  {
+    id: 4, title: "大部头与深度聆听", desc: "需要耐心，但回报巨大",
+    tracks: [
+      { cn: "第九交响曲「合唱」", en: "Symphony No. 9 in D minor, Op. 125 \"Choral\"", composer: "beethoven", composerLabel: "贝多芬 Beethoven", duration: "65 min", tip: "人类音乐史的巅峰之一", search: "Beethoven Symphony 9 Choral", recommend: "Furtwangler 1951 Bayreuth" },
+      { cn: "第二交响曲「复活」", en: "Symphony No. 2 \"Resurrection\"", composer: "mahler", composerLabel: "马勒 Mahler", duration: "80 min", tip: "从死亡到复活，终曲会让你起鸡皮疙瘩", search: "Mahler Symphony 2 Resurrection", recommend: "Bernstein / New York Philharmonic" },
+      { cn: "第六交响曲「悲怆」", en: "Symphony No. 6 \"Pathetique\", Op. 74", composer: "tchaikovsky", composerLabel: "柴可夫斯基 Tchaikovsky", duration: "45 min", tip: "柴可夫斯基的遗书，听完会沉默很久", search: "Tchaikovsky Symphony 6 Pathetique", recommend: "Mravinsky / Leningrad Philharmonic" },
+      { cn: "第四交响曲", en: "Symphony No. 4 in E minor, Op. 98", composer: "brahms", composerLabel: "勃拉姆斯 Brahms", duration: "40 min", tip: "秋天的音乐，内敛深沉", search: "Brahms Symphony 4", recommend: "Carlos Kleiber / Wiener Philharmoniker" },
+      { cn: "第五交响曲", en: "Symphony No. 5 in D minor, Op. 47", composer: "shostakovich", composerLabel: "肖斯塔科维奇 Shostakovich", duration: "45 min", tip: "苏联高压下的抗争，第四乐章极具张力", search: "Shostakovich Symphony 5", recommend: "Bernstein / New York Philharmonic" },
+      { cn: "女武神骑行", en: "Die Walkure - Ride of the Valkyries", composer: "wagner", composerLabel: "瓦格纳 Wagner", duration: "5 min", tip: "先听这段，再决定要不要挑战整部歌剧", search: "Wagner Ride of the Valkyries", recommend: "Solti / Vienna Philharmonic" }
+    ]
+  },
+  {
+    id: 5, title: "室内乐与独奏", desc: "最私密的体验，适合安静独处时听",
+    tracks: [
+      { cn: "月光奏鸣曲", en: "Piano Sonata No. 14 \"Moonlight\", Op. 27 No. 2", composer: "beethoven", composerLabel: "贝多芬 Beethoven", duration: "15 min", tip: "第一乐章静谧，第三乐章狂暴", search: "Beethoven Moonlight Sonata", recommend: "Barenboim / Horowitz" },
+      { cn: "夜曲 Op. 9 No. 2", en: "Nocturne No. 2 in E-flat Major, Op. 9 No. 2", composer: "chopin", composerLabel: "肖邦 Chopin", duration: "5 min", tip: "肖邦最经典的夜曲", search: "Chopin Nocturne Op 9 No 2", recommend: "Rubinstein / Zimerman" },
+      { cn: "鳟鱼五重奏", en: "Trout Quintet, D. 667", composer: "schubert", composerLabel: "舒伯特 Schubert", duration: "35 min", tip: "第四乐章的鳟鱼变奏活泼可爱", search: "Schubert Trout Quintet", recommend: "Alfred Brendel" },
+      { cn: "克鲁采奏鸣曲", en: "Violin Sonata No. 9 \"Kreutzer\", Op. 47", composer: "beethoven", composerLabel: "贝多芬 Beethoven", duration: "35 min", tip: "托尔斯泰专门为它写了一部小说", search: "Beethoven Kreutzer Sonata", recommend: "Perlman / Argerich" }
+    ]
+  }
+];
+
+var appleSvg = '<svg viewBox="0 0 24 24"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 0 0-1.877-.726 10.496 10.496 0 0 0-1.564-.15c-.073-.005-.146-.01-.22-.015H6.117c-.12.01-.24.015-.36.021-.57.032-1.14.1-1.69.27-.913.28-1.676.79-2.272 1.52a4.8 4.8 0 0 0-.87 1.874 9.58 9.58 0 0 0-.18 1.49L.706 5.4v13.2l.015.22c.03.56.09 1.12.27 1.66.32 1.01.88 1.82 1.72 2.43.57.41 1.21.67 1.91.81.41.08.82.13 1.24.15.16.01.32.01.48.02h12.06c.12-.01.24-.01.36-.02.65-.03 1.3-.1 1.92-.32.95-.34 1.72-.91 2.33-1.72.42-.57.7-1.2.86-1.88.08-.33.13-.67.16-1.01.02-.2.03-.41.04-.61V6.339c-.01-.072-.02-.15-.03-.221zM17.4 16.18c-.01.28-.09.55-.2.8-.23.54-.6.93-1.13 1.17-.35.15-.72.22-1.1.24-.3.02-.59 0-.88-.07-.64-.17-1.13-.55-1.47-1.1-.2-.33-.3-.7-.33-1.08-.04-.53.08-1.02.36-1.47.33-.52.8-.86 1.37-1.05.35-.12.72-.17 1.09-.2.31-.02.62 0 .93.03V9.58c0-.1-.01-.2-.04-.3-.03-.12-.11-.2-.23-.22-.07-.01-.14-.01-.22 0-.37.06-.74.13-1.11.2l-4.6.87c-.09.02-.18.04-.27.07-.12.04-.19.13-.21.26-.01.06-.02.12-.02.18V16.8c0 .17-.02.34-.06.51-.1.44-.31.82-.66 1.12-.35.31-.76.49-1.21.58-.44.08-.88.1-1.33.03-.69-.11-1.22-.45-1.58-1.06-.26-.43-.34-.9-.3-1.39.06-.6.31-1.1.76-1.5.4-.34.86-.55 1.38-.64.32-.06.64-.08.97-.06.13.01.25.03.38.05V10.2c0-.27.02-.54.06-.81.06-.39.27-.65.63-.78.2-.07.4-.12.61-.15l5.08-.97c.27-.05.55-.1.82-.14.34-.05.59.1.69.43.03.1.04.2.04.31v7.02c0 .03 0 .06-.01.09z"/></svg>';
+
+function esc(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function render() {
+  var app = document.getElementById('app');
+  var idx = 0;
+  var html = '';
+
+  for (var si = 0; si < STAGES.length; si++) {
+    var stage = STAGES[si];
+    var tracksHtml = '';
+
+    for (var ti = 0; ti < stage.tracks.length; ti++) {
+      var t = stage.tracks[ti];
+      idx++;
+      var c = COMPOSERS[t.composer];
+      var pBio = PERFORMERS[t.recommend] || '';
+      var url = 'https://music.apple.com/search?term=' + encodeURIComponent(t.search);
+
+      tracksHtml += '<div class="track" id="t' + idx + '">' +
+        '<div class="track-row" onclick="toggle(\'t' + idx + '\')">' +
+          '<div class="cover" style="background:' + esc(c.color) + '">' +
+            '<img src="' + esc(c.img) + '" alt="' + esc(t.composerLabel) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'" />' +
+            '<div class="cover-fallback" style="display:none;background:' + esc(c.color) + '">' + esc(c.initial) + '</div>' +
+          '</div>' +
+          '<div class="track-info">' +
+            '<div class="track-cn">' + esc(t.cn) + '</div>' +
+            '<div class="track-by">' + esc(t.composerLabel) + ' · ' + esc(t.duration) + '</div>' +
+          '</div>' +
+          '<div class="track-dur">' + esc(t.duration) + '</div>' +
+          '<div class="track-chevron">▶</div>' +
+        '</div>' +
+        '<div class="track-detail"><div class="track-detail-inner"><div class="detail-content">' +
+          '<div class="detail-en">' + esc(t.en) + '</div>' +
+          '<div class="detail-tip">' + esc(t.tip) + '</div>' +
+          '<div class="detail-section">' +
+            '<div class="detail-label">作曲家</div>' +
+            '<div class="detail-text">' + esc(c.bio) + '</div>' +
+          '</div>' +
+          '<div class="detail-section">' +
+            '<div class="detail-label">推荐版本</div>' +
+            '<div class="detail-text">' + esc(t.recommend) + (pBio ? ' — ' + esc(pBio) : '') + '</div>' +
+          '</div>' +
+          '<a class="apple-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' +
+            appleSvg + ' 在 Apple Music 搜索' +
+          '</a>' +
+        '</div></div></div>' +
+      '</div>';
+    }
+
+    html += '<div class="stage' + (stage.id === 1 ? ' open' : '') + '" id="s' + stage.id + '">' +
+      '<div class="stage-head" onclick="toggleStage(\'s' + stage.id + '\')">' +
+        '<div class="stage-n">' + stage.id + '</div>' +
+        '<div class="stage-meta">' +
+          '<div class="stage-title">' + esc(stage.title) + '</div>' +
+          '<div class="stage-sub">' + esc(stage.desc) + '</div>' +
+        '</div>' +
+        '<div class="stage-toggle">▼</div>' +
+      '</div>' +
+      '<div class="stage-body"><div class="stage-body-inner">' +
+        '<div class="tracks">' + tracksHtml + '</div>' +
+      '</div></div>' +
+    '</div>';
+  }
+
+  html += '<div class="tips"><h3>聆听建议</h3><ul>' +
+    '<li>觉得无聊就换下一首，回头再来</li>' +
+    '<li>戴耳机 — 古典音乐动态范围大，外放容易错过细节</li>' +
+    '<li>从短的听起，再挑战长的</li>' +
+    '<li>同一首多听几遍 — 第一遍听旋律，第二遍听结构，第三遍听细节</li>' +
+    '<li>不用懂乐理，能感受到情绪就够了</li>' +
+  '</ul></div>';
+
+  html += '<div class="glossary"><h3>速度术语小词典</h3>' +
+    '<p class="intro">在 Apple Music 里常见的意大利语标记，它们是乐章的速度与情绪指示</p>' +
+    '<div class="tempo-grid">' +
+      '<div class="tempo-item"><div class="tempo-word">Largo</div><div class="tempo-meaning">广板 · 非常慢</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Adagio</div><div class="tempo-meaning">柔板 · 慢速抱情</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Andante</div><div class="tempo-meaning">行板 · 像散步</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Moderato</div><div class="tempo-meaning">中板 · 中等速度</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Allegretto</div><div class="tempo-meaning">小快板 · 稍快</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Allegro</div><div class="tempo-meaning">快板 · 活泼有活力</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Vivace</div><div class="tempo-meaning">活泼的 · 很快</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Presto</div><div class="tempo-meaning">急板 · 非常快</div></div>' +
+    '</div></div>';
+
+  app.innerHTML = html;
+}
+
+function toggleStage(id) {
+  var el = document.getElementById(id);
+  var opening = !el.classList.contains('open');
+  document.querySelectorAll('.stage.open').forEach(function(s) { s.classList.remove('open'); });
+  if (opening) el.classList.add('open');
+}
+
+function toggle(id) {
+  if (event && event.target.closest('.apple-link')) return;
+  var el = document.getElementById(id);
+  var opening = !el.classList.contains('open');
+  document.querySelectorAll('.track.open').forEach(function(t) { t.classList.remove('open'); });
+  if (opening) el.classList.add('open');
+}
+
+render();
+</script>
+
+</body>
+</html>
