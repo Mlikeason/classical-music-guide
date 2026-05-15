@@ -14,6 +14,7 @@
     --text-3: #999;
     --line: #e5e5e5;
     --accent: #b4462f;
+    --green: #4a9a6e;
     --hover: #f8f7f5;
     --serif: 'Noto Serif SC', Georgia, 'Times New Roman', serif;
     --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
@@ -31,10 +32,17 @@
 
   .page { max-width: 640px; margin: 0 auto; padding: 60px 24px 80px; }
 
-  header { margin-bottom: 56px; text-align: center; }
+  header { margin-bottom: 40px; text-align: center; }
   header h1 { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 12px; }
   header .subtitle { color: var(--text-3); font-size: 0.88rem; letter-spacing: 0.04em; }
   .divider { width: 32px; height: 1px; background: var(--text); margin: 20px auto; }
+
+  /* Progress */
+  .progress-header { text-align: center; margin-bottom: 40px; }
+  .progress-text { font-size: 0.82rem; color: var(--text-3); margin-bottom: 8px; }
+  .progress-text span { color: var(--text); font-weight: 600; }
+  .progress-bar-wrap { width: 100%; max-width: 200px; height: 3px; background: var(--line); border-radius: 2px; margin: 0 auto; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s ease; }
 
   .stage { margin-bottom: 48px; }
   .stage-head { display: flex; align-items: baseline; gap: 16px; cursor: pointer; padding: 12px 0; border-bottom: 1px solid var(--line); user-select: none; }
@@ -53,26 +61,39 @@
 
   .track { border-bottom: 1px solid var(--line); }
   .track:last-child { border-bottom: none; }
-  .track-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; cursor: pointer; transition: background 0.15s; }
+  .track.listened .track-row { opacity: 0.5; }
+  .track.listened:hover .track-row { opacity: 0.75; }
+  .track.listened.open .track-row { opacity: 0.75; }
+
+  .track-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; cursor: pointer; transition: background 0.15s, opacity 0.3s; }
   .track-row:hover { background: var(--hover); margin: 0 -12px; padding: 14px 12px; border-radius: 6px; }
 
   .cover {
     width: 52px; height: 52px; border-radius: 6px; flex-shrink: 0;
     overflow: hidden; position: relative; background: #ddd;
   }
-  .cover img {
-    width: 100%; height: 100%; object-fit: cover; display: block;
-  }
+  .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cover-fallback {
     width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-    font-family: var(--serif); font-size: 1.3rem; font-weight: 700;
-    color: rgba(255,255,255,0.85);
+    font-family: var(--serif); font-size: 1.3rem; font-weight: 700; color: rgba(255,255,255,0.85);
   }
 
   .track-info { flex: 1; min-width: 0; }
   .track-cn { font-size: 0.92rem; font-weight: 600; line-height: 1.3; }
   .track-by { font-size: 0.78rem; color: var(--text-3); margin-top: 2px; }
   .track-dur { font-size: 0.72rem; color: var(--text-3); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+  /* Listen check button */
+  .listen-btn {
+    width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--line);
+    background: none; cursor: pointer; flex-shrink: 0; display: flex; align-items: center;
+    justify-content: center; font-size: 0; transition: all 0.2s; color: transparent; padding: 0;
+  }
+  .listen-btn:hover { border-color: var(--green); }
+  .track.listened .listen-btn {
+    background: var(--green); border-color: var(--green); color: #fff; font-size: 0.7rem;
+  }
+
   .track-chevron { font-size: 0.6rem; color: var(--text-3); transition: transform 0.25s; flex-shrink: 0; }
   .track.open .track-chevron { transform: rotate(90deg); }
 
@@ -85,9 +106,33 @@
   .detail-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-3); margin-bottom: 3px; }
   .detail-text { font-size: 0.82rem; color: var(--text-2); line-height: 1.6; }
   .detail-tip { font-size: 0.82rem; color: var(--text); background: #f5f4f0; padding: 8px 12px; border-radius: 6px; border-left: 2px solid var(--accent); margin: 12px 0; }
+
+  /* Action row: Apple link + play button */
+  .action-row { display: flex; align-items: center; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+
   .apple-link { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--accent); text-decoration: none; padding: 6px 0; transition: opacity 0.15s; }
   .apple-link:hover { opacity: 0.7; }
   .apple-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+  .play-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; color: var(--text-2); background: none; border: 1px solid var(--line);
+    border-radius: 16px; padding: 5px 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .play-btn:hover { border-color: var(--text-3); color: var(--text); }
+  .play-btn.loading { opacity: 0.5; pointer-events: none; }
+  .play-btn.playing { border-color: var(--accent); color: var(--accent); }
+
+  /* Mini player */
+  .mini-player {
+    margin-top: 10px; display: none; align-items: center; gap: 10px;
+  }
+  .mini-player.active { display: flex; }
+  .audio-bar-wrap {
+    flex: 1; height: 3px; background: var(--line); border-radius: 2px; overflow: hidden; cursor: pointer;
+  }
+  .audio-bar-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0; transition: width 0.1s linear; }
+  .audio-time { font-size: 0.7rem; color: var(--text-3); font-variant-numeric: tabular-nums; flex-shrink: 0; }
 
   .tips { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--line); }
   .tips h3 { font-family: var(--serif); font-size: 1rem; margin-bottom: 16px; }
@@ -118,6 +163,10 @@
     <div class="divider"></div>
     <p class="subtitle">28 首经典，从零开始，循序渐进</p>
   </header>
+  <div class="progress-header" id="progressHeader">
+    <div class="progress-text">已听 <span id="listenedCount">0</span> / <span id="totalCount">28</span></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+  </div>
   <main id="app"></main>
 </div>
 
@@ -156,7 +205,7 @@ var PERFORMERS = {
   "Carlos Kleiber": "被誉为指挥中的指挥，极度完美主义，录音极少但每张皆为传奇",
   "Argerich / Abbado": "阿格里奇是阿根廷钢琴女王，阿巴多是意大利诗意指挥大师",
   "Anne-Sophie Mutter": "德国小提琴家，卡拉扬的爱徒，当代最杰出的小提琴家之一",
-  "Zimerman / Ozawa": "齐默尔曼是波兰钢琴大师，小�的征尔是日本传奇指挥家",
+  "Zimerman / Ozawa": "齐默尔曼是波兰钢琴大师，小泽征尔是日本传奇指挥家",
   "Karl Richter": "德国管风琴家、指挥家，巴赫音乐的权威诠释者",
   "Zimerman": "克里斯蒂安·齐默尔曼，波兰钢琴家，以极度严谨和完美的音色著称",
   "Kubelik / Czech Philharmonic": "捷克指挥家库贝利克与捷克爱乐，演绎本国作品最为地道",
@@ -228,13 +277,101 @@ var STAGES = [
 
 var appleSvg = '<svg viewBox="0 0 24 24"><path d="M23.994 6.124a9.23 9.23 0 0 0-.24-2.19c-.317-1.31-1.062-2.31-2.18-3.043a5.022 5.022 0 0 0-1.877-.726 10.496 10.496 0 0 0-1.564-.15c-.073-.005-.146-.01-.22-.015H6.117c-.12.01-.24.015-.36.021-.57.032-1.14.1-1.69.27-.913.28-1.676.79-2.272 1.52a4.8 4.8 0 0 0-.87 1.874 9.58 9.58 0 0 0-.18 1.49L.706 5.4v13.2l.015.22c.03.56.09 1.12.27 1.66.32 1.01.88 1.82 1.72 2.43.57.41 1.21.67 1.91.81.41.08.82.13 1.24.15.16.01.32.01.48.02h12.06c.12-.01.24-.01.36-.02.65-.03 1.3-.1 1.92-.32.95-.34 1.72-.91 2.33-1.72.42-.57.7-1.2.86-1.88.08-.33.13-.67.16-1.01.02-.2.03-.41.04-.61V6.339c-.01-.072-.02-.15-.03-.221zM17.4 16.18c-.01.28-.09.55-.2.8-.23.54-.6.93-1.13 1.17-.35.15-.72.22-1.1.24-.3.02-.59 0-.88-.07-.64-.17-1.13-.55-1.47-1.1-.2-.33-.3-.7-.33-1.08-.04-.53.08-1.02.36-1.47.33-.52.8-.86 1.37-1.05.35-.12.72-.17 1.09-.2.31-.02.62 0 .93.03V9.58c0-.1-.01-.2-.04-.3-.03-.12-.11-.2-.23-.22-.07-.01-.14-.01-.22 0-.37.06-.74.13-1.11.2l-4.6.87c-.09.02-.18.04-.27.07-.12.04-.19.13-.21.26-.01.06-.02.12-.02.18V16.8c0 .17-.02.34-.06.51-.1.44-.31.82-.66 1.12-.35.31-.76.49-1.21.58-.44.08-.88.1-1.33.03-.69-.11-1.22-.45-1.58-1.06-.26-.43-.34-.9-.3-1.39.06-.6.31-1.1.76-1.5.4-.34.86-.55 1.38-.64.32-.06.64-.08.97-.06.13.01.25.03.38.05V10.2c0-.27.02-.54.06-.81.06-.39.27-.65.63-.78.2-.07.4-.12.61-.15l5.08-.97c.27-.05.55-.1.82-.14.34-.05.59.1.69.43.03.1.04.2.04.31v7.02c0 .03 0 .06-.01.09z"/></svg>';
 
-function esc(s) {
-  var d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
+var TOTAL = 28;
+var listenedSet = {};
+var audio = null;
+var currentPlayId = null;
+var animFrame = null;
+
+function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function loadListened() {
+  try { var arr = JSON.parse(localStorage.getItem('listened') || '[]'); arr.forEach(function(id) { listenedSet[id] = true; }); } catch(e) {}
+}
+
+function saveListened() {
+  localStorage.setItem('listened', JSON.stringify(Object.keys(listenedSet)));
+}
+
+function updateListenedUI() {
+  var count = Object.keys(listenedSet).length;
+  document.getElementById('listenedCount').textContent = count;
+  document.getElementById('progressFill').style.width = (count / TOTAL * 100) + '%';
+  for (var i = 1; i <= TOTAL; i++) {
+    var el = document.getElementById('t' + i);
+    if (el) el.classList.toggle('listened', !!listenedSet['t' + i]);
+  }
+}
+
+function toggleListened(id, ev) {
+  ev.stopPropagation();
+  if (listenedSet[id]) { delete listenedSet[id]; } else { listenedSet[id] = true; }
+  saveListened();
+  updateListenedUI();
+}
+
+function stopPreview() {
+  if (audio) { audio.pause(); audio.src = ''; audio = null; }
+  if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+  if (currentPlayId) {
+    var btn = document.getElementById('pb-' + currentPlayId);
+    if (btn) { btn.classList.remove('playing'); btn.textContent = '\\u25B6 \\u8BD5\\u542C'; }
+    var mp = document.getElementById('mp-' + currentPlayId);
+    if (mp) mp.classList.remove('active');
+    currentPlayId = null;
+  }
+}
+
+function playPreview(trackId, searchTerm) {
+  var btn = document.getElementById('pb-' + trackId);
+  if (currentPlayId === trackId) { stopPreview(); return; }
+  stopPreview();
+  currentPlayId = trackId;
+  btn.classList.add('loading');
+  btn.textContent = '...';
+
+  fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(searchTerm) + '&media=music&limit=1')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.results || !data.results[0] || !data.results[0].previewUrl) {
+        btn.classList.remove('loading');
+        btn.textContent = '\\u25B6 \\u8BD5\\u542C';
+        currentPlayId = null;
+        return;
+      }
+      var result = data.results[0];
+      audio = new Audio(result.previewUrl);
+      audio.play();
+      btn.classList.remove('loading');
+      btn.classList.add('playing');
+      btn.textContent = '\\u23F8 \\u6682\\u505C';
+
+      var mp = document.getElementById('mp-' + trackId);
+      var fill = document.getElementById('mf-' + trackId);
+      var time = document.getElementById('mt-' + trackId);
+      mp.classList.add('active');
+
+      function tick() {
+        if (!audio || audio.paused) return;
+        var pct = audio.duration ? (audio.currentTime / audio.duration * 100) : 0;
+        fill.style.width = pct + '%';
+        var rem = Math.ceil((audio.duration || 30) - audio.currentTime);
+        time.textContent = '0:' + (rem < 10 ? '0' : '') + rem;
+        animFrame = requestAnimationFrame(tick);
+      }
+      tick();
+
+      audio.onended = function() { stopPreview(); };
+    })
+    .catch(function() {
+      btn.classList.remove('loading');
+      btn.textContent = '\\u25B6 \\u8BD5\\u542C';
+      currentPlayId = null;
+    });
 }
 
 function render() {
+  loadListened();
   var app = document.getElementById('app');
   var idx = 0;
   var html = '';
@@ -246,12 +383,13 @@ function render() {
     for (var ti = 0; ti < stage.tracks.length; ti++) {
       var t = stage.tracks[ti];
       idx++;
+      var tid = 't' + idx;
       var c = COMPOSERS[t.composer];
       var pBio = PERFORMERS[t.recommend] || '';
       var url = 'https://music.apple.com/search?term=' + encodeURIComponent(t.search);
 
-      tracksHtml += '<div class="track" id="t' + idx + '">' +
-        '<div class="track-row" onclick="toggle(\'t' + idx + '\')">' +
+      tracksHtml += '<div class="track' + (listenedSet[tid] ? ' listened' : '') + '" id="' + tid + '">' +
+        '<div class="track-row" onclick="toggle(\'' + tid + '\')">' +
           '<div class="cover" style="background:' + esc(c.color) + '">' +
             '<img src="' + esc(c.img) + '" alt="' + esc(t.composerLabel) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'" />' +
             '<div class="cover-fallback" style="display:none;background:' + esc(c.color) + '">' + esc(c.initial) + '</div>' +
@@ -260,23 +398,28 @@ function render() {
             '<div class="track-cn">' + esc(t.cn) + '</div>' +
             '<div class="track-by">' + esc(t.composerLabel) + ' · ' + esc(t.duration) + '</div>' +
           '</div>' +
-          '<div class="track-dur">' + esc(t.duration) + '</div>' +
-          '<div class="track-chevron">▶</div>' +
+          '<button class="listen-btn" onclick="toggleListened(\'' + tid + '\', event)" title="\\u6807\\u8BB0\\u5DF2\\u542C">\\u2713</button>' +
+          '<div class="track-chevron">\\u25B6</div>' +
         '</div>' +
         '<div class="track-detail"><div class="track-detail-inner"><div class="detail-content">' +
           '<div class="detail-en">' + esc(t.en) + '</div>' +
           '<div class="detail-tip">' + esc(t.tip) + '</div>' +
           '<div class="detail-section">' +
-            '<div class="detail-label">作曲家</div>' +
+            '<div class="detail-label">\\u4F5C\\u66F2\\u5BB6</div>' +
             '<div class="detail-text">' + esc(c.bio) + '</div>' +
           '</div>' +
           '<div class="detail-section">' +
-            '<div class="detail-label">推荐版本</div>' +
-            '<div class="detail-text">' + esc(t.recommend) + (pBio ? ' — ' + esc(pBio) : '') + '</div>' +
+            '<div class="detail-label">\\u63A8\\u8350\\u7248\\u672C</div>' +
+            '<div class="detail-text">' + esc(t.recommend) + (pBio ? ' \\u2014 ' + esc(pBio) : '') + '</div>' +
           '</div>' +
-          '<a class="apple-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' +
-            appleSvg + ' 在 Apple Music 搜索' +
-          '</a>' +
+          '<div class="action-row">' +
+            '<a class="apple-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + appleSvg + ' \\u5728 Apple Music \\u641C\\u7D22</a>' +
+            '<button class="play-btn" id="pb-' + tid + '" onclick="event.stopPropagation();playPreview(\'' + tid + '\',\'' + esc(t.search).replace(/'/g, "\\'") + '\')">\\u25B6 \\u8BD5\\u542C</button>' +
+          '</div>' +
+          '<div class="mini-player" id="mp-' + tid + '">' +
+            '<div class="audio-bar-wrap"><div class="audio-bar-fill" id="mf-' + tid + '"></div></div>' +
+            '<div class="audio-time" id="mt-' + tid + '">0:30</div>' +
+          '</div>' +
         '</div></div></div>' +
       '</div>';
     }
@@ -288,7 +431,7 @@ function render() {
           '<div class="stage-title">' + esc(stage.title) + '</div>' +
           '<div class="stage-sub">' + esc(stage.desc) + '</div>' +
         '</div>' +
-        '<div class="stage-toggle">▼</div>' +
+        '<div class="stage-toggle">\\u25BC</div>' +
       '</div>' +
       '<div class="stage-body"><div class="stage-body-inner">' +
         '<div class="tracks">' + tracksHtml + '</div>' +
@@ -296,28 +439,29 @@ function render() {
     '</div>';
   }
 
-  html += '<div class="tips"><h3>聆听建议</h3><ul>' +
-    '<li>觉得无聊就换下一首，回头再来</li>' +
-    '<li>戴耳机 — 古典音乐动态范围大，外放容易错过细节</li>' +
-    '<li>从短的听起，再挑战长的</li>' +
-    '<li>同一首多听几遍 — 第一遍听旋律，第二遍听结构，第三遍听细节</li>' +
-    '<li>不用懂乐理，能感受到情绪就够了</li>' +
+  html += '<div class="tips"><h3>\\u8046\\u542C\\u5EFA\\u8BAE</h3><ul>' +
+    '<li>\\u89C9\\u5F97\\u65E0\\u804A\\u5C31\\u6362\\u4E0B\\u4E00\\u9996\\uFF0C\\u56DE\\u5934\\u518D\\u6765</li>' +
+    '<li>\\u6234\\u8033\\u673A \\u2014 \\u53E4\\u5178\\u97F3\\u4E50\\u52A8\\u6001\\u8303\\u56F4\\u5927\\uFF0C\\u5916\\u653E\\u5BB9\\u6613\\u9519\\u8FC7\\u7EC6\\u8282</li>' +
+    '<li>\\u4ECE\\u77ED\\u7684\\u542C\\u8D77\\uFF0C\\u518D\\u6311\\u6218\\u957F\\u7684</li>' +
+    '<li>\\u540C\\u4E00\\u9996\\u591A\\u542C\\u51E0\\u904D \\u2014 \\u7B2C\\u4E00\\u904D\\u542C\\u65CB\\u5F8B\\uFF0C\\u7B2C\\u4E8C\\u904D\\u542C\\u7ED3\\u6784\\uFF0C\\u7B2C\\u4E09\\u904D\\u542C\\u7EC6\\u8282</li>' +
+    '<li>\\u4E0D\\u7528\\u61C2\\u4E50\\u7406\\uFF0C\\u80FD\\u611F\\u53D7\\u5230\\u60C5\\u7EEA\\u5C31\\u591F\\u4E86</li>' +
   '</ul></div>';
 
-  html += '<div class="glossary"><h3>速度术语小词典</h3>' +
-    '<p class="intro">在 Apple Music 里常见的意大利语标记，它们是乐章的速度与情绪指示</p>' +
+  html += '<div class="glossary"><h3>\\u901F\\u5EA6\\u672F\\u8BED\\u5C0F\\u8BCD\\u5178</h3>' +
+    '<p class="intro">\\u5728 Apple Music \\u91CC\\u5E38\\u89C1\\u7684\\u610F\\u5927\\u5229\\u8BED\\u6807\\u8BB0\\uFF0C\\u5B83\\u4EEC\\u662F\\u4E50\\u7AE0\\u7684\\u901F\\u5EA6\\u4E0E\\u60C5\\u7EEA\\u6307\\u793A</p>' +
     '<div class="tempo-grid">' +
-      '<div class="tempo-item"><div class="tempo-word">Largo</div><div class="tempo-meaning">广板 · 非常慢</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Adagio</div><div class="tempo-meaning">柔板 · 慢速抱情</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Andante</div><div class="tempo-meaning">行板 · 像散步</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Moderato</div><div class="tempo-meaning">中板 · 中等速度</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Allegretto</div><div class="tempo-meaning">小快板 · 稍快</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Allegro</div><div class="tempo-meaning">快板 · 活泼有活力</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Vivace</div><div class="tempo-meaning">活泼的 · 很快</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Presto</div><div class="tempo-meaning">急板 · 非常快</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Largo</div><div class="tempo-meaning">\\u5E7F\\u677F \\u00B7 \\u975E\\u5E38\\u6162</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Adagio</div><div class="tempo-meaning">\\u67D4\\u677F \\u00B7 \\u6162\\u901F\\u62B1\\u60C5</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Andante</div><div class="tempo-meaning">\\u884C\\u677F \\u00B7 \\u50CF\\u6563\\u6B65</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Moderato</div><div class="tempo-meaning">\\u4E2D\\u677F \\u00B7 \\u4E2D\\u7B49\\u901F\\u5EA6</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Allegretto</div><div class="tempo-meaning">\\u5C0F\\u5FEB\\u677F \\u00B7 \\u7A0D\\u5FEB</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Allegro</div><div class="tempo-meaning">\\u5FEB\\u677F \\u00B7 \\u6D3B\\u6CFC\\u6709\\u6D3B\\u529B</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Vivace</div><div class="tempo-meaning">\\u6D3B\\u6CFC\\u7684 \\u00B7 \\u5F88\\u5FEB</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Presto</div><div class="tempo-meaning">\\u6025\\u677F \\u00B7 \\u975E\\u5E38\\u5FEB</div></div>' +
     '</div></div>';
 
   app.innerHTML = html;
+  updateListenedUI();
 }
 
 function toggleStage(id) {
@@ -328,7 +472,7 @@ function toggleStage(id) {
 }
 
 function toggle(id) {
-  if (event && event.target.closest('.apple-link')) return;
+  if (event && (event.target.closest('.apple-link') || event.target.closest('.play-btn') || event.target.closest('.listen-btn') || event.target.closest('.mini-player'))) return;
   var el = document.getElementById(id);
   var opening = !el.classList.contains('open');
   document.querySelectorAll('.track.open').forEach(function(t) { t.classList.remove('open'); });
