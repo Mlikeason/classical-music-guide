@@ -324,7 +324,7 @@ function render() {
       var tid = 't' + idx;
       var c = COMPOSERS[t.composer];
       var pBio = PERFORMERS[t.recommend] || '';
-      var url = 'https://classical.music.apple.com/search?term=' + encodeURIComponent(t.search);
+      var url = 'https://music.apple.com/search?term=' + encodeURIComponent(t.search);
 
       tracksHtml += '<div class="track' + (listenedSet[tid] ? ' listened' : '') + '" id="' + tid + '" data-dur="' + parseInt(t.duration, 10) + '">' +
         '<div class="track-row" onclick="toggle(\'' + tid + '\', event)">' +
@@ -351,7 +351,7 @@ function render() {
             '<div class="detail-text">' + esc(t.recommend) + (pBio ? ' — ' + esc(pBio) : '') + '</div>' +
           '</div>' +
           '<div class="action-row">' +
-            '<a class="apple-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + appleSvg + ' 在 Apple Music 古典乐 搜索</a>' +
+            '<a class="apple-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + appleSvg + ' 在 Apple Music 搜索</a>' +
           '</div>' +
         '</div></div></div>' +
       '</div>';
