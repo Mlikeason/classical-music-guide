@@ -146,6 +146,16 @@
   .tempo-word { font-style: italic; font-size: 0.85rem; font-weight: 600; }
   .tempo-meaning { font-size: 0.75rem; color: var(--text-3); }
 
+  /* Filter chips */
+  .filter-bar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: -16px 0 32px; }
+  .chip {
+    font-family: var(--sans); font-size: 0.78rem; color: var(--text-2);
+    background: none; border: 1px solid var(--line); border-radius: 16px;
+    padding: 5px 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .chip:hover { border-color: var(--text-3); color: var(--text); }
+  .chip.active { border-color: var(--accent); color: var(--accent); }
+
   @media (max-width: 480px) {
     .page { padding: 40px 16px 60px; }
     header h1 { font-size: 1.5rem; }
@@ -167,13 +177,19 @@
     <div class="progress-text">已听 <span id="listenedCount">0</span> / <span id="totalCount">28</span></div>
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
   </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="chip active" data-filter="all" onclick="applyFilter('all')">全部</button>
+    <button class="chip" data-filter="short" onclick="applyFilter('short')">短曲 &lt; 10 min</button>
+    <button class="chip" data-filter="long" onclick="applyFilter('long')">长曲 ≥ 30 min</button>
+    <button class="chip" data-filter="unlistened" onclick="applyFilter('unlistened')">未听</button>
+  </div>
   <main id="app"></main>
 </div>
 
 <script>
 var COMPOSERS = {
   vivaldi:      { initial: "V", color: "#c2785c", img: "classical-music-guide-images/vivaldi.jpg", bio: "安东尼奥·维瓦尔第（1678-1741），意大利巴洛克时期作曲家、小提琴家，被誉为「红发神父」。他的音乐充满活力与色彩，对协奏曲体裁影响深远。" },
-  pachelbel:    { initial: "P", color: "#a08870", img: "classical-music-guide-images/pachelbel.jpg", bio: "约翰·帕赫贝尔（1653-1706），德国巴洛克作曲家、管风琴家。他的 D 大调卡农是世界上被演奏次数最多的古典作品之一。" },
+  pachelbel:    { initial: "P", color: "#a08870", img: "classical-music-guide-images/pachelbel.png", bio: "约翰·帕赫贝尔（1653-1706），德国巴洛克作曲家、管风琴家。他的 D 大调卡农是世界上被演奏次数最多的古典作品之一。" },
   beethoven:    { initial: "B", color: "#6b6b6b", img: "classical-music-guide-images/beethoven.jpg", bio: "路德维希·范·贝多芬（1770-1827），德国作曲家，古典与浪漫主义的桥梁。晚年完全失聪仍创作出第九交响曲，被认为是西方音乐史上最伟大的作曲家之一。" },
   dvorak:       { initial: "D", color: "#7a9a6e", img: "classical-music-guide-images/dvorak.jpg", bio: "安东尼·德沃夏克（1841-1904），捷克作曲家，民族乐派代表。曾任纽约国家音乐学院院长，「自新世界」交响曲融合了美国民间音乐与波西米亚乡愁。" },
   saintsaens:   { initial: "S", color: "#8a7a9e", img: "classical-music-guide-images/saintsaens.jpg", bio: "卡米尔·圣-桑（1835-1921），法国作曲家、管风琴家、钢琴家。他是音乐神童，2 岁写曲，风格优雅精致，涉猎交响曲、协奏曲、歌剧等众多体裁。" },
@@ -282,6 +298,7 @@ var listenedSet = {};
 var audio = null;
 var currentPlayId = null;
 var animFrame = null;
+var currentFilter = 'all';
 
 function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
@@ -294,13 +311,14 @@ function saveListened() {
 }
 
 function updateListenedUI() {
-  var count = Object.keys(listenedSet).length;
-  document.getElementById('listenedCount').textContent = count;
-  document.getElementById('progressFill').style.width = (count / TOTAL * 100) + '%';
+  var count = 0;
   for (var i = 1; i <= TOTAL; i++) {
+    if (listenedSet['t' + i]) count++;
     var el = document.getElementById('t' + i);
     if (el) el.classList.toggle('listened', !!listenedSet['t' + i]);
   }
+  document.getElementById('listenedCount').textContent = count;
+  document.getElementById('progressFill').style.width = (count / TOTAL * 100) + '%';
 }
 
 function toggleListened(id, ev) {
@@ -308,6 +326,7 @@ function toggleListened(id, ev) {
   if (listenedSet[id]) { delete listenedSet[id]; } else { listenedSet[id] = true; }
   saveListened();
   updateListenedUI();
+  if (currentFilter === 'unlistened') applyFilter(currentFilter);
 }
 
 function stopPreview() {
@@ -315,7 +334,7 @@ function stopPreview() {
   if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
   if (currentPlayId) {
     var btn = document.getElementById('pb-' + currentPlayId);
-    if (btn) { btn.classList.remove('playing'); btn.textContent = '\\u25B6 \\u8BD5\\u542C'; }
+    if (btn) { btn.classList.remove('playing'); btn.textContent = '▶ 试听'; }
     var mp = document.getElementById('mp-' + currentPlayId);
     if (mp) mp.classList.remove('active');
     currentPlayId = null;
@@ -333,9 +352,10 @@ function playPreview(trackId, searchTerm) {
   fetch('https://itunes.apple.com/search?term=' + encodeURIComponent(searchTerm) + '&media=music&limit=1')
     .then(function(r) { return r.json(); })
     .then(function(data) {
+      if (currentPlayId !== trackId) { btn.classList.remove('loading'); btn.textContent = '▶ 试听'; return; }
       if (!data.results || !data.results[0] || !data.results[0].previewUrl) {
         btn.classList.remove('loading');
-        btn.textContent = '\\u25B6 \\u8BD5\\u542C';
+        btn.textContent = '▶ 试听';
         currentPlayId = null;
         return;
       }
@@ -344,7 +364,7 @@ function playPreview(trackId, searchTerm) {
       audio.play();
       btn.classList.remove('loading');
       btn.classList.add('playing');
-      btn.textContent = '\\u23F8 \\u6682\\u505C';
+      btn.textContent = '⏹ 停止';
 
       var mp = document.getElementById('mp-' + trackId);
       var fill = document.getElementById('mf-' + trackId);
@@ -365,8 +385,8 @@ function playPreview(trackId, searchTerm) {
     })
     .catch(function() {
       btn.classList.remove('loading');
-      btn.textContent = '\\u25B6 \\u8BD5\\u542C';
-      currentPlayId = null;
+      btn.textContent = '▶ 试听';
+      if (currentPlayId === trackId) currentPlayId = null;
     });
 }
 
@@ -388,8 +408,8 @@ function render() {
       var pBio = PERFORMERS[t.recommend] || '';
       var url = 'https://music.apple.com/search?term=' + encodeURIComponent(t.search);
 
-      tracksHtml += '<div class="track' + (listenedSet[tid] ? ' listened' : '') + '" id="' + tid + '">' +
-        '<div class="track-row" onclick="toggle(\'' + tid + '\')">' +
+      tracksHtml += '<div class="track' + (listenedSet[tid] ? ' listened' : '') + '" id="' + tid + '" data-dur="' + parseInt(t.duration, 10) + '">' +
+        '<div class="track-row" onclick="toggle(\'' + tid + '\', event)">' +
           '<div class="cover" style="background:' + esc(c.color) + '">' +
             '<img src="' + esc(c.img) + '" alt="' + esc(t.composerLabel) + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'" />' +
             '<div class="cover-fallback" style="display:none;background:' + esc(c.color) + '">' + esc(c.initial) + '</div>' +
@@ -398,23 +418,23 @@ function render() {
             '<div class="track-cn">' + esc(t.cn) + '</div>' +
             '<div class="track-by">' + esc(t.composerLabel) + ' · ' + esc(t.duration) + '</div>' +
           '</div>' +
-          '<button class="listen-btn" onclick="toggleListened(\'' + tid + '\', event)" title="\\u6807\\u8BB0\\u5DF2\\u542C">\\u2713</button>' +
-          '<div class="track-chevron">\\u25B6</div>' +
+          '<button class="listen-btn" onclick="toggleListened(\'' + tid + '\', event)" title="标记已听">✓</button>' +
+          '<div class="track-chevron">▶</div>' +
         '</div>' +
         '<div class="track-detail"><div class="track-detail-inner"><div class="detail-content">' +
           '<div class="detail-en">' + esc(t.en) + '</div>' +
           '<div class="detail-tip">' + esc(t.tip) + '</div>' +
           '<div class="detail-section">' +
-            '<div class="detail-label">\\u4F5C\\u66F2\\u5BB6</div>' +
+            '<div class="detail-label">作曲家</div>' +
             '<div class="detail-text">' + esc(c.bio) + '</div>' +
           '</div>' +
           '<div class="detail-section">' +
-            '<div class="detail-label">\\u63A8\\u8350\\u7248\\u672C</div>' +
-            '<div class="detail-text">' + esc(t.recommend) + (pBio ? ' \\u2014 ' + esc(pBio) : '') + '</div>' +
+            '<div class="detail-label">推荐版本</div>' +
+            '<div class="detail-text">' + esc(t.recommend) + (pBio ? ' — ' + esc(pBio) : '') + '</div>' +
           '</div>' +
           '<div class="action-row">' +
-            '<a class="apple-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + appleSvg + ' \\u5728 Apple Music \\u641C\\u7D22</a>' +
-            '<button class="play-btn" id="pb-' + tid + '" onclick="event.stopPropagation();playPreview(\'' + tid + '\',\'' + esc(t.search).replace(/'/g, "\\'") + '\')">\\u25B6 \\u8BD5\\u542C</button>' +
+            '<a class="apple-link" href="' + esc(url) + '" target="_blank" rel="noopener" onclick="event.stopPropagation()">' + appleSvg + ' 在 Apple Music 搜索</a>' +
+            '<button class="play-btn" id="pb-' + tid + '" data-tid="' + tid + '" data-search="' + esc(t.search) + '">▶ 试听</button>' +
           '</div>' +
           '<div class="mini-player" id="mp-' + tid + '">' +
             '<div class="audio-bar-wrap"><div class="audio-bar-fill" id="mf-' + tid + '"></div></div>' +
@@ -431,7 +451,7 @@ function render() {
           '<div class="stage-title">' + esc(stage.title) + '</div>' +
           '<div class="stage-sub">' + esc(stage.desc) + '</div>' +
         '</div>' +
-        '<div class="stage-toggle">\\u25BC</div>' +
+        '<div class="stage-toggle">▼</div>' +
       '</div>' +
       '<div class="stage-body"><div class="stage-body-inner">' +
         '<div class="tracks">' + tracksHtml + '</div>' +
@@ -439,28 +459,34 @@ function render() {
     '</div>';
   }
 
-  html += '<div class="tips"><h3>\\u8046\\u542C\\u5EFA\\u8BAE</h3><ul>' +
-    '<li>\\u89C9\\u5F97\\u65E0\\u804A\\u5C31\\u6362\\u4E0B\\u4E00\\u9996\\uFF0C\\u56DE\\u5934\\u518D\\u6765</li>' +
-    '<li>\\u6234\\u8033\\u673A \\u2014 \\u53E4\\u5178\\u97F3\\u4E50\\u52A8\\u6001\\u8303\\u56F4\\u5927\\uFF0C\\u5916\\u653E\\u5BB9\\u6613\\u9519\\u8FC7\\u7EC6\\u8282</li>' +
-    '<li>\\u4ECE\\u77ED\\u7684\\u542C\\u8D77\\uFF0C\\u518D\\u6311\\u6218\\u957F\\u7684</li>' +
-    '<li>\\u540C\\u4E00\\u9996\\u591A\\u542C\\u51E0\\u904D \\u2014 \\u7B2C\\u4E00\\u904D\\u542C\\u65CB\\u5F8B\\uFF0C\\u7B2C\\u4E8C\\u904D\\u542C\\u7ED3\\u6784\\uFF0C\\u7B2C\\u4E09\\u904D\\u542C\\u7EC6\\u8282</li>' +
-    '<li>\\u4E0D\\u7528\\u61C2\\u4E50\\u7406\\uFF0C\\u80FD\\u611F\\u53D7\\u5230\\u60C5\\u7EEA\\u5C31\\u591F\\u4E86</li>' +
+  html += '<div class="tips"><h3>聆听建议</h3><ul>' +
+    '<li>觉得无聊就换下一首，回头再来</li>' +
+    '<li>戴耳机 — 古典音乐动态范围大，外放容易错过细节</li>' +
+    '<li>从短的听起，再挑战长的</li>' +
+    '<li>同一首多听几遍 — 第一遍听旋律，第二遍听结构，第三遍听细节</li>' +
+    '<li>不用懂乐理，能感受到情绪就够了</li>' +
   '</ul></div>';
 
-  html += '<div class="glossary"><h3>\\u901F\\u5EA6\\u672F\\u8BED\\u5C0F\\u8BCD\\u5178</h3>' +
-    '<p class="intro">\\u5728 Apple Music \\u91CC\\u5E38\\u89C1\\u7684\\u610F\\u5927\\u5229\\u8BED\\u6807\\u8BB0\\uFF0C\\u5B83\\u4EEC\\u662F\\u4E50\\u7AE0\\u7684\\u901F\\u5EA6\\u4E0E\\u60C5\\u7EEA\\u6307\\u793A</p>' +
+  html += '<div class="glossary"><h3>速度术语小词典</h3>' +
+    '<p class="intro">在 Apple Music 里常见的意大利语标记，它们是乐章的速度与情绪指示</p>' +
     '<div class="tempo-grid">' +
-      '<div class="tempo-item"><div class="tempo-word">Largo</div><div class="tempo-meaning">\\u5E7F\\u677F \\u00B7 \\u975E\\u5E38\\u6162</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Adagio</div><div class="tempo-meaning">\\u67D4\\u677F \\u00B7 \\u6162\\u901F\\u62B1\\u60C5</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Andante</div><div class="tempo-meaning">\\u884C\\u677F \\u00B7 \\u50CF\\u6563\\u6B65</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Moderato</div><div class="tempo-meaning">\\u4E2D\\u677F \\u00B7 \\u4E2D\\u7B49\\u901F\\u5EA6</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Allegretto</div><div class="tempo-meaning">\\u5C0F\\u5FEB\\u677F \\u00B7 \\u7A0D\\u5FEB</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Allegro</div><div class="tempo-meaning">\\u5FEB\\u677F \\u00B7 \\u6D3B\\u6CFC\\u6709\\u6D3B\\u529B</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Vivace</div><div class="tempo-meaning">\\u6D3B\\u6CFC\\u7684 \\u00B7 \\u5F88\\u5FEB</div></div>' +
-      '<div class="tempo-item"><div class="tempo-word">Presto</div><div class="tempo-meaning">\\u6025\\u677F \\u00B7 \\u975E\\u5E38\\u5FEB</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Largo</div><div class="tempo-meaning">广板 · 非常慢</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Adagio</div><div class="tempo-meaning">柔板 · 慢速抒情</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Andante</div><div class="tempo-meaning">行板 · 像散步</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Moderato</div><div class="tempo-meaning">中板 · 中等速度</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Allegretto</div><div class="tempo-meaning">小快板 · 稍快</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Allegro</div><div class="tempo-meaning">快板 · 活泼有活力</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Vivace</div><div class="tempo-meaning">活泼的 · 很快</div></div>' +
+      '<div class="tempo-item"><div class="tempo-word">Presto</div><div class="tempo-meaning">急板 · 非常快</div></div>' +
     '</div></div>';
 
   app.innerHTML = html;
+  app.addEventListener('click', function(e) {
+    var pb = e.target.closest('.play-btn');
+    if (!pb) return;
+    e.stopPropagation();
+    playPreview(pb.getAttribute('data-tid'), pb.getAttribute('data-search'));
+  });
   updateListenedUI();
 }
 
@@ -471,8 +497,34 @@ function toggleStage(id) {
   if (opening) el.classList.add('open');
 }
 
-function toggle(id) {
-  if (event && (event.target.closest('.apple-link') || event.target.closest('.play-btn') || event.target.closest('.listen-btn') || event.target.closest('.mini-player'))) return;
+function applyFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.chip').forEach(function(c) {
+    c.classList.toggle('active', c.getAttribute('data-filter') === filter);
+  });
+  for (var i = 1; i <= TOTAL; i++) {
+    var el = document.getElementById('t' + i);
+    if (!el) continue;
+    var dur = parseInt(el.getAttribute('data-dur'), 10) || 0;
+    var listened = !!listenedSet['t' + i];
+    var show = filter === 'all' ||
+               (filter === 'short' && dur < 10) ||
+               (filter === 'long' && dur >= 30) ||
+               (filter === 'unlistened' && !listened);
+    el.style.display = show ? '' : 'none';
+  }
+  document.querySelectorAll('.stage').forEach(function(s) {
+    var anyVisible = false;
+    s.querySelectorAll('.track').forEach(function(t) {
+      if (t.style.display !== 'none') anyVisible = true;
+    });
+    s.style.display = anyVisible ? '' : 'none';
+    if (filter !== 'all' && anyVisible) s.classList.add('open');
+  });
+}
+
+function toggle(id, ev) {
+  if (ev && (ev.target.closest('.apple-link') || ev.target.closest('.play-btn') || ev.target.closest('.listen-btn') || ev.target.closest('.mini-player'))) return;
   var el = document.getElementById(id);
   var opening = !el.classList.contains('open');
   document.querySelectorAll('.track.open').forEach(function(t) { t.classList.remove('open'); });
