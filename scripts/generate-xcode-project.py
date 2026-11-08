@@ -51,7 +51,7 @@ for name in phases:
     products.append(product)
     configs = []
     for mode in ['Debug','Release']:
-        s = {'PRODUCT_NAME':'$(TARGET_NAME)','PRODUCT_BUNDLE_IDENTIFIER':'me.zhuhong.classicalguide' + ('' if isapp else '.'+name),'CODE_SIGN_STYLE':'Automatic','TARGETED_DEVICE_FAMILY':'1,2','GENERATE_INFOPLIST_FILE':'YES','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'1','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD':'NO','SWIFT_EMIT_LOC_STRINGS':'YES'}
+        s = {'PRODUCT_NAME':'$(TARGET_NAME)','PRODUCT_BUNDLE_IDENTIFIER':'me.zhuhong.classicalguide' + ('' if isapp else '.'+name),'CODE_SIGN_STYLE':'Automatic','TARGETED_DEVICE_FAMILY':'1,2','GENERATE_INFOPLIST_FILE':'YES','MARKETING_VERSION':'1.0.0','CURRENT_PROJECT_VERSION':'2','SUPPORTED_PLATFORMS':'iphoneos iphonesimulator','SUPPORTS_MACCATALYST':'NO','SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD':'NO','SWIFT_EMIT_LOC_STRINGS':'YES'}
         if isapp:
             s.update({'INFOPLIST_FILE':'ClassicalGuide/Resources/Info.plist','INFOPLIST_KEY_CFBundleDisplayName':'古典指南','INFOPLIST_KEY_LSApplicationCategoryType':'public.app-category.music','ASSETCATALOG_COMPILER_APPICON_NAME':'AppIcon','ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME':'AccentColor','LD_RUNPATH_SEARCH_PATHS':'$(inherited) @executable_path/Frameworks'})
         elif name == 'ClassicalGuideTests':

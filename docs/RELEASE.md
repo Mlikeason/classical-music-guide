@@ -1,6 +1,13 @@
 # 发布交付记录
 
-日期：2026-11-08。产品：古典指南 1.0.0 (1)。开发者署名：Zhu Hong。支持邮箱：zivzhu@gmail.com。用户确认：免费、无广告、无内购；目标包含中国大陆的尽可能全球发行。
+日期：2026-11-08。产品：古典指南 1.0.0。开发者署名：Zhu Hong。支持邮箱：zivzhu@gmail.com。用户确认：免费、无广告、无内购；目标包含中国大陆的尽可能全球发行。
+
+## 当前版本与图标
+
+- Build 2 按用户要求改回原项目的红底白色三行乐谱图标，源文件为 `apple-touch-icon.png`。使用 `sh scripts/prepare-app-icon.sh` 导出 1024×1024 不透明 PNG，原图配色与构图保持不变。现有源图为 180×180，导出不会增加细节。
+- Build 2 已通过 Release 真机构建，核对编译后的图标与版本信息，并成功覆盖安装、启动到 iPhone Duo。未卸载 App 或更改学习数据存储格式。
+- Build 1 已完成 iPhone Duo 真机安装、启动与进程确认；包含旧图标的 Build 1 已上传 Apple，尚未提交审核。
+- 下文 `ClassicalGuide-Final.xcarchive`、`AppStore-Final/ClassicalGuide.ipa` 与旧交付 ZIP 均对应 Build 1，不能用于发布本次图标修订。上架前必须上传并选用 Build 2 或后续版本。
 
 ## 构建与验证
 
@@ -15,8 +22,8 @@
 - iOS 17 真机测试、VoiceOver 手动朗读验收尚未进行。
 - 全部 28 条 Apple Music 搜索 URL 的 HTTP 请求经重定向后均返回 200，结果保存在 `build/music-link-check.json`。这不代表每个地区都存在推荐录音，也不代替真机外部 App 跳转与播放验收。
 - HTML 本地链接、plist、工程格式与 Git 空白检查通过。官网配套页未完成浏览器预览或公开部署验证。
-- App Store Connect 已到达 Apple 账户登录页面，但浏览器连接反复超时，未完成登录。未创建或修改商店应用记录，未上传、提交审核或发布。
-- 另尝试使用 Xcode 已配置账号直接上传。Apple 返回 `App record with bundle identifier "me.zhuhong.classicalguide" not found on App Store Connect`；上传失败，需要先创建应用记录。Xcode 图形界面被另一项任务的权限弹窗阻挡，未替该任务确认权限。本地已成功导出的分发 IPA 不受影响。
+- App Store Connect 已创建“古典指南”（Apple ID `6832264137`），保存中文商店文案、审核联系人、音乐／教育分类与手动发布设置。Build 1 上传成功，Apple 处理结果尚待核对；未提交审核或发布。
+- 截图、隐私、价格与销售地区尚待完成；年龄分级问卷尚未保存完成。用户已确认原项目中文介绍与推荐文字为其原创，内容版权声明仍需在 App Store Connect 完成。
 
 最终截图从上述成功 CI 的测试附件原样导出，已经人工检查。未缩放、未拼接；截图和构建产物不纳入 Git。
 
@@ -31,14 +38,14 @@
 
 - `ios/ClassicalGuide.xcodeproj`：可直接打开的 Xcode 工程。
 - `build/ClassicalGuide-Final.xcarchive`：包含最终视觉修复的签名归档。
-- `build/AppStore-Final/ClassicalGuide.ipa`：最终 App Store 分发包，约 442 KB，使用 Cloud Managed Apple Distribution 签名，`get-task-allow=false`，未上传 Apple。它用于 App Store Connect 上传，不能当作开发包直接安装。
+- `build/AppStore-Final/ClassicalGuide.ipa`：Build 1 的 App Store 分发包，约 442 KB，使用 Cloud Managed Apple Distribution 签名，`get-task-allow=false`，已上传 Apple。它包含旧图标，用于 App Store Connect 上传，不能当作开发包直接安装。
 - IPA SHA-256：`9e0cdff0fe327054688940887c62f08c7c3e5f5d95fcf79bdb9b3c7128ffdade`。
 - `ios/ExportOptions.plist`：分发导出设置，仅导出到本地。
 - `docs/app-store-zh-Hans.txt`：中文商店资料与英文审核备注。
 - `website/classical-guide/`：官网支持页与隐私页的完整静态源文件。
 - `build/ClassicalGuide-AppStore-Package.zip`：iOS 工程、分发 IPA、五张商店尺寸截图、发布说明与官网页面草稿的本地交付包。它不是已发布或已通过审核的版本。
 
-代码草稿 PR：[classical-music-guide #1](https://github.com/Mlikeason/classical-music-guide/pull/1)。官网配套页已单独准备到 [zhuhong-me #1](https://github.com/Mlikeason/zhuhong-me/pull/1)，均未合并 main。
+代码草稿 PR：[classical-music-guide #1](https://github.com/Mlikeason/classical-music-guide/pull/1)，尚未合并。官网配套页 [zhuhong-me #1](https://github.com/Mlikeason/zhuhong-me/pull/1) 已获批准并合并，但实际域名由另一 Vercel 项目 `finding-m` 托管；包含新页面的预览部署已就绪，生产发布与公开 URL 验证尚未完成。
 
 ## 构建命令
 
@@ -58,10 +65,10 @@ xcodebuild -exportArchive -archivePath build/ClassicalGuide-Final.xcarchive \
 
 1. 完成 TestFlight 真机验收、VoiceOver 手动检查及外部 Apple Music 跳转。模拟器自动测试不能替代真机使用验证。
 2. 在商店资料中上传已经准备的 6.9 英寸 iPhone 与 13 英寸 iPad 原生截图。
-3. 官网配套文件已放入 `Mlikeason/zhuhong-me` 的草稿 PR #1。取得开发者对隐私政策和发布的确认后，通过现有网站部署流程发布，并验证 `https://zhuhong.me/classical-guide/` 和 `https://zhuhong.me/classical-guide/privacy/`。
-4. 开发者确认隐私政策与实际运营相符，尤其是支持邮件“问题解决后 90 天内删除”的承诺。当前 App 不向开发者发送学习数据；如今后加入分析、云同步、账号等，必须同步更新声明和政策。
-5. 在 App Store Connect 创建 iOS App（主语言简体中文、Bundle ID 如上、SKU 可用 `classical-guide-ios`），检查“古典指南”名称可用性。Apple 显示的销售者姓名由开发者账号法定信息决定，不能由 App 内署名覆盖。
-6. 上传最终 IPA 或通过 Xcode Organizer 上传归档，先走 TestFlight 真机验收；填写内容权利、隐私、年龄分级、审核联系人电话与免费发行地区。年龄分级以问卷的实际计算结果为准。
+3. 官网与隐私政策已获开发者批准。通过实际托管网站的 `finding-m` 项目发布，保留其他现有页面，并验证 `https://zhuhong.me/classical-guide/` 和 `https://zhuhong.me/classical-guide/privacy/`。
+4. 开发者已确认支持邮件“问题解决后 90 天内删除”的承诺。当前 App 不向开发者发送学习数据；如今后加入分析、云同步、账号等，必须同步更新声明和政策。
+5. 核对已创建的 App 记录（主语言简体中文、Bundle ID 如上、SKU `classical-guide-ios`）。Apple 显示的销售者姓名由开发者账号法定信息决定，不能由 App 内署名覆盖。
+6. 上传采用原图标的 Build 2 或后续归档，核对 Apple 处理结果并完成 TestFlight 真机验收；完成内容权利、隐私、年龄分级与免费发行地区。审核联系人已保存，年龄分级以问卷的实际计算结果为准。
 7. 中国大陆：核对 App Store Connect 对本 App 的备案要求，如需备案则提供对应 App 的有效 ICP 备案号，确保简体中文名称等元数据与备案一致。当前没有用户提供的 App 备案号，不能假设网站已有备案可用于此 App。
 8. 审核材料完整后再提交 Apple 审核。尚未获得审核通过，不能将本地构建成功等同于可直接公开发行。
 

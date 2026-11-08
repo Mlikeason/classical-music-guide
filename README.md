@@ -16,6 +16,8 @@ xcodebuild -project ios/ClassicalGuide.xcodeproj -scheme ClassicalGuide \
 
 项目文件已提交。增减 Swift 源文件后，可用 `python3 scripts/generate-xcode-project.py` 重新生成项目与共享 scheme；生成器不需要 XcodeGen。
 
+App 图标沿用原项目的 `apple-touch-icon.png`（红底白色三行乐谱）。使用 `sh scripts/prepare-app-icon.sh` 可将原图导出为 iOS 所需的 1024×1024 不透明 PNG，保留原有配色与构图。仓库现有源图为 180×180，放大不会增加原图细节；后续如有更高分辨率原稿，可替换源图后重新导出。
+
 ## 已实现
 
 - 原生学习路径、下一首推荐、按阶段进度；全部内容离线可读。
