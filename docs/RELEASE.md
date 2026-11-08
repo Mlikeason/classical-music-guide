@@ -10,7 +10,8 @@
 - Build 2 按用户要求改回原项目的红底白色三行乐谱图标，源文件为 `apple-touch-icon.png`。使用 `sh scripts/prepare-app-icon.sh` 导出 1024×1024 不透明 PNG，原图配色与构图保持不变。现有源图为 180×180，导出不会增加细节。
 - Build 2 已通过 Release 真机构建，核对编译后的图标与版本信息，并成功覆盖安装、启动到 iPhone Duo。未卸载 App 或更改学习数据存储格式。
 - Build 1 已完成 iPhone Duo 真机安装、启动与进程确认；包含旧图标的 Build 1 已上传 Apple，尚未提交审核。
-- 下文 `ClassicalGuide-Final.xcarchive`、`AppStore-Final/ClassicalGuide.ipa` 与旧交付 ZIP 均对应 Build 1，不能用于发布当前修订。上架前必须重新归档并选用 Build 3 或后续版本。
+- Build 3 已完成 Release 签名归档与 App Store Connect 上传，Apple 处理完成后已关联到首发版本 1.0.0。归档为 `build/ClassicalGuide-Build3.xcarchive`，上传日志为 `build/build3-upload.log`（`Upload succeeded` / `EXPORT SUCCEEDED`）。
+- 下文 `ClassicalGuide-Final.xcarchive`、`AppStore-Final/ClassicalGuide.ipa` 与旧交付 ZIP 均对应 Build 1，不能用于发布当前修订。商店记录已选用 Build 3。
 
 ## Web V2 正式网页
 
@@ -33,8 +34,12 @@
 - iOS 17 真机测试、VoiceOver 手动朗读验收尚未进行。
 - 全部 28 条 Apple Music 搜索 URL 的 HTTP 请求经重定向后均返回 200，结果保存在 `build/music-link-check.json`。这不代表每个地区都存在推荐录音，也不代替真机外部 App 跳转与播放验收。
 - HTML 本地链接、plist、工程格式与 Git 空白检查通过。官网配套页的浏览器和公开部署验证见上方记录。
-- App Store Connect 已创建“古典指南”（Apple ID `6832264137`），保存中文商店文案、审核联系人、音乐／教育分类与手动发布设置。Build 1 上传成功，Apple 处理结果尚待核对；未提交审核或发布。
-- 截图、隐私、价格与销售地区尚待完成；年龄分级问卷尚未保存完成。用户已确认原项目中文介绍与推荐文字为其原创，内容版权声明仍需在 App Store Connect 完成。
+- App Store Connect 已创建“古典指南”（Apple ID `6832264137`），保存中文商店文案、审核联系人、音乐／教育分类与审核通过后手动发布设置。Build 3 已处理完成并关联，构建 ID 为 `515e42c4-8e33-422e-91af-bc43729f9149`。
+- 五张最新截图已上传：iPhone 大屏三张、iPad 13 英寸两张；iPhone 中等显示屏显示自动使用现有大屏素材。Apple 送审完整性检查未报告截图缺项。
+- 年龄分级问卷已完成并保存，全球分级 4+（区域例外以 Apple 显示为准）。隐私政策 URL 已保存，App 隐私“未收集数据”已发布。
+- 定价已保存为免费；供应范围已选择全部 175 个国家或地区，包括将来新增地区。iPhone／iPad App 在 Mac 和 Apple Vision Pro 上供应的选项已关闭。中国大陆实际供应仍取决于相关资质要求，尚未填写 ICP 备案号。
+- 点击“添加以供审核”后，Apple 仅报告一项缺失：“你必须在 App 信息中设置内容版权信息。”当前仍是“准备提交”，未进入审核队列。检查截图位于 `build/app-store-build3-preflight.jpg`。
+- 用户已确认导览文字全部原创；自动审批仍拒绝代选“不包含、显示或访问第三方内容”，原因是 App 有 Apple Music 外链，原创文字确认未覆盖该声明。已请开发者在 Apple 页面按实际权利情况亲自确认并保存；未改选另一版权声明或绕过限制。
 
 最终截图从上述成功 CI 的测试附件原样导出，已经人工检查。未缩放、未拼接；截图和构建产物不纳入 Git。
 
@@ -48,6 +53,8 @@
 ## 本地产物
 
 - `ios/ClassicalGuide.xcodeproj`：可直接打开的 Xcode 工程。
+- `build/ClassicalGuide-Build3.xcarchive`：当前 Build 3 签名归档，已上传 Apple 并完成处理。
+- `build/build3-archive.log`、`build/build3-upload.log`：当前归档与上传成功日志。
 - `build/ClassicalGuide-Final.xcarchive`：包含最终视觉修复的签名归档。
 - `build/AppStore-Final/ClassicalGuide.ipa`：Build 1 的 App Store 分发包，约 442 KB，使用 Cloud Managed Apple Distribution 签名，`get-task-allow=false`，已上传 Apple。它包含旧图标，用于 App Store Connect 上传，不能当作开发包直接安装。
 - IPA SHA-256：`9e0cdff0fe327054688940887c62f08c7c3e5f5d95fcf79bdb9b3c7128ffdade`。
@@ -65,21 +72,21 @@
 ```sh
 xcodebuild -jobs 2 -project ios/ClassicalGuide.xcodeproj -scheme ClassicalGuide \
   -configuration Release -destination 'generic/platform=iOS' \
-  -archivePath build/ClassicalGuide-Final.xcarchive -allowProvisioningUpdates archive
+  -archivePath build/ClassicalGuide-Build3.xcarchive -allowProvisioningUpdates archive
 
-xcodebuild -exportArchive -archivePath build/ClassicalGuide-Final.xcarchive \
-  -exportPath build/AppStore-Final -exportOptionsPlist ios/ExportOptions.plist \
+xcodebuild -exportArchive -archivePath build/ClassicalGuide-Build3.xcarchive \
+  -exportPath build/AppStore-Build3 -exportOptionsPlist ios/ExportOptions.plist \
   -allowProvisioningUpdates
 ```
 
 ## 上架前的实际待办
 
 1. 完成 TestFlight 真机验收、VoiceOver 手动检查及外部 Apple Music 跳转。模拟器自动测试不能替代真机使用验证。
-2. 在商店资料中上传已经准备的 6.9 英寸 iPhone 与 13 英寸 iPad 原生截图。
+2. 商店截图已上传，Apple 送审完整性检查未报告截图缺项。
 3. 官网与隐私政策已获批准、正式部署并核验。将上方固定 URL 用于商店资料；后续网站更新继续保留 `classical-guide/`。
 4. 开发者已确认支持邮件“问题解决后 90 天内删除”的承诺。当前 App 不向开发者发送学习数据；如今后加入分析、云同步、账号等，必须同步更新声明和政策。
 5. 核对已创建的 App 记录（主语言简体中文、Bundle ID 如上、SKU `classical-guide-ios`）。Apple 显示的销售者姓名由开发者账号法定信息决定，不能由 App 内署名覆盖。
-6. 重新归档并上传包含原图标、首页精简和正式网页链接的 Build 3 或后续版本，核对 Apple 处理结果并完成 TestFlight 真机验收；完成内容权利、隐私、年龄分级与免费发行地区。审核联系人已保存，年龄分级以问卷的实际计算结果为准。
+6. Build 3 已归档、上传、完成处理并关联；隐私、年龄分级、免费价格和全球发行选择已保存。当前唯一由 Apple 完整性检查列出的缺项是内容版权，须由开发者按实际权利情况确认并保存。
 7. 中国大陆：核对 App Store Connect 对本 App 的备案要求，如需备案则提供对应 App 的有效 ICP 备案号，确保简体中文名称等元数据与备案一致。当前没有用户提供的 App 备案号，不能假设网站已有备案可用于此 App。
 8. 审核材料完整后再提交 Apple 审核。尚未获得审核通过，不能将本地构建成功等同于可直接公开发行。
 
