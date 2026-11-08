@@ -1,0 +1,55 @@
+App 名称
+古典指南
+
+副标题
+28 首经典，开启你的聆听旅程
+
+推广文本
+从一首喜欢的旋律开始。循序探索 28 首古典作品，用聆听提示、收藏与笔记，留下自己的音乐发现。
+
+描述
+不必先懂乐理，也可以走进古典音乐。
+
+古典指南把 28 首作品整理为五段循序渐进的聆听旅程：从熟悉的旋律，到完整作品、不同风格、深度聆听与室内乐。每首作品都有中文介绍、三条聆听提示与录音探索建议，让你知道这一遍可以留意什么。
+
+• 按自己的节奏学习：标记已听作品，查看每一段旅程的进度。
+• 找到想听的声音：搜索中文或英文作品名、作曲家和演奏者，按时长与作曲家筛选。
+• 记住心动的瞬间：收藏作品，写下聆听笔记，随时回看。
+• 离线阅读：导览、作曲家资料与速度术语无需联网即可查看。
+• 自己保管记录：导出 JSON 备份，换机时合并导入，也可在设置中清除本机记录。
+• 适合 iPhone 与 iPad，支持深色模式和系统动态字体。
+
+App 无需登录，不含广告或追踪 SDK，不提供账号或自动云同步。
+
+音乐通过外部链接跳转 Apple Music 搜索。App 不内置音频、不提供音乐下载；播放条件、订阅需求与曲目供应以当地音乐服务为准。作品时长为约数，录音推荐供探索与比较。
+
+开发者：Zhu Hong
+支持：zivzhu@gmail.com
+官网：https://zhuhong.me
+
+关键词
+古典音乐,入门,聆听,作曲家,交响曲,钢琴,音乐欣赏,学习,笔记,收藏,协奏曲
+
+主分类建议
+音乐
+
+次分类建议
+教育
+
+版权
+2026 Zhu Hong
+
+支持 URL（发布前必须部署并核验）
+https://zhuhong.me/classical-guide/
+
+隐私政策 URL（发布前必须部署并核验）
+https://zhuhong.me/classical-guide/privacy/
+
+审核备注（英文）
+Classical Guide is a native SwiftUI classical-music learning and personal listening-journal app. No login or review account is required. All 28 work guides, 20 composer profiles, learning paths, and glossary content are bundled for offline use. Reviewers can search for “Moonlight”, open the work, bookmark it, mark it as listened, and save a note. These records persist across launches and can be exported/imported as JSON in Settings. Import merges records and preserves existing notes for conflicts. Settings also offers deletion of all local learning data. The Apple Music button opens an external HTTPS search URL and does not stream or download recordings in this app. Availability and playback conditions depend on the external music service. There are no ads, tracking SDKs, accounts, subscriptions or in-app purchases in this build.
+
+已确认发行方向
+免费，无广告、无内购。目标为包含中国大陆在内的尽可能全球发行。
+
+发行资料待补齐
+年龄分级问卷、App Review 联系电话、最终商店名称可用性；中国大陆发行所需的备案号及名称一致性需以 App Store Connect 的实际要求核对。不能把网站备案号自动视作 App 备案号。

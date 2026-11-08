@@ -1,0 +1,746 @@
+{
+  "schemaVersion": 1,
+  "stages": [
+    {
+      "id": 1,
+      "title": "旋律优美，耳熟能详",
+      "subtitle": "培养兴趣 · 这些曲子你大概率听过"
+    },
+    {
+      "id": 2,
+      "title": "完整作品入门",
+      "subtitle": "感受乐章的叙事结构"
+    },
+    {
+      "id": 3,
+      "title": "扩展风格与时代",
+      "subtitle": "巴洛克 · 印象派 · 民族乐派"
+    },
+    {
+      "id": 4,
+      "title": "大部头与深度聆听",
+      "subtitle": "需要耐心，但回报巨大"
+    },
+    {
+      "id": 5,
+      "title": "室内乐与独奏",
+      "subtitle": "最私密的体验，适合安静独处时听"
+    }
+  ],
+  "composers": [
+    {
+      "id": "vivaldi",
+      "name": "维瓦尔第",
+      "latinName": "Vivaldi",
+      "initial": "V",
+      "colorHex": "#c2785c",
+      "biography": "安东尼奥·维瓦尔第（1678-1741），意大利巴洛克时期作曲家、小提琴家，被誉为「红发神父」。他的音乐充满活力与色彩，对协奏曲体裁影响深远。",
+      "era": "巴洛克"
+    },
+    {
+      "id": "pachelbel",
+      "name": "帕赫贝尔",
+      "latinName": "Pachelbel",
+      "initial": "P",
+      "colorHex": "#a08870",
+      "biography": "约翰·帕赫贝尔（1653-1706），德国巴洛克作曲家、管风琴家。他的 D 大调卡农是世界上被演奏次数最多的古典作品之一。",
+      "era": "巴洛克"
+    },
+    {
+      "id": "beethoven",
+      "name": "贝多芬",
+      "latinName": "Beethoven",
+      "initial": "B",
+      "colorHex": "#6b6b6b",
+      "biography": "路德维希·范·贝多芬（1770-1827），德国作曲家，古典与浪漫主义的桥梁。晚年完全失聪仍创作出第九交响曲，被认为是西方音乐史上最伟大的作曲家之一。",
+      "era": "古典主义"
+    },
+    {
+      "id": "dvorak",
+      "name": "德沃夏克",
+      "latinName": "Dvorak",
+      "initial": "D",
+      "colorHex": "#7a9a6e",
+      "biography": "安东尼·德沃夏克（1841-1904），捷克作曲家，民族乐派代表。曾任纽约国家音乐学院院长，「自新世界」交响曲融合了美国民间音乐与波西米亚乡愁。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "saintsaens",
+      "name": "圣-桑",
+      "latinName": "Saint-Saens",
+      "initial": "S",
+      "colorHex": "#8a7a9e",
+      "biography": "卡米尔·圣-桑（1835–1921），法国作曲家、管风琴家、钢琴家。他的创作涉及交响曲、协奏曲、歌剧与室内乐，《动物狂欢节》展示了丰富的音色与想象力。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "grieg",
+      "name": "格里格",
+      "latinName": "Grieg",
+      "initial": "G",
+      "colorHex": "#5e8a8a",
+      "biography": "爱德华·格里格（1843-1907），挪威作曲家，北欧浪漫主义代表。他的音乐融入挪威民间旋律，充满自然风光和北欧气质。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "mozart",
+      "name": "莫扎特",
+      "latinName": "Mozart",
+      "initial": "M",
+      "colorHex": "#c4956a",
+      "biography": "沃尔夫冈·阿马德乌斯·莫扎特（1756-1791），奥地利作曲家，古典主义巅峰。5 岁作曲、6 岁巡演，短短 35 年人生留下 600 多部作品，音乐兼具优美与深度。",
+      "era": "古典主义"
+    },
+    {
+      "id": "tchaikovsky",
+      "name": "柴可夫斯基",
+      "latinName": "Tchaikovsky",
+      "initial": "T",
+      "colorHex": "#7a6e8e",
+      "biography": "彼得·伊里奇·柴可夫斯基（1840-1893），俄国浪漫主义作曲家。他的音乐旋律丰富、情感浓烈，芭蕾舞剧《天鹅湖》《胡桃夹子》举世闻名。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "mendelssohn",
+      "name": "门德尔松",
+      "latinName": "Mendelssohn",
+      "initial": "M",
+      "colorHex": "#6a8e7a",
+      "biography": "费利克斯·门德尔松（1809–1847），德国浪漫主义作曲家、指挥家。他的音乐常带有明亮而典雅的气质，1829 年指挥巴赫《马太受难曲》的演出，推动了巴赫作品的复兴。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "schubert",
+      "name": "舒伯特",
+      "latinName": "Schubert",
+      "initial": "S",
+      "colorHex": "#9a8a6e",
+      "biography": "弗朗茨·舒伯特（1797-1828），奥地利作曲家，「艺术歌曲之王」。31 岁去世前留下超 600 首艺术歌曲和大量器乐作品，旋律天赋无与伦比。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "rachmaninoff",
+      "name": "拉赫玛尼诺夫",
+      "latinName": "Rachmaninoff",
+      "initial": "R",
+      "colorHex": "#5a6a7e",
+      "biography": "谢尔盖·拉赫玛尼诺夫（1873-1943），俄国晚期浪漫主义作曲家、钢琴家。拥有超大手掌跨度，他的钢琴协奏曲以宏大深情著称，是浪漫主义的最后辉煌。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "bach",
+      "name": "巴赫",
+      "latinName": "J.S. Bach",
+      "initial": "B",
+      "colorHex": "#8a7a5e",
+      "biography": "约翰·塞巴斯蒂安·巴赫（1685-1750），德国巴洛克音乐大师，被尊为「音乐之父」。他将复调音乐发展到极致，作品结构精密如建筑，又饱含深邃的精神力量。",
+      "era": "巴洛克"
+    },
+    {
+      "id": "debussy",
+      "name": "德彪西",
+      "latinName": "Debussy",
+      "initial": "D",
+      "colorHex": "#6e8a9a",
+      "biography": "克洛德·德彪西（1862-1918），法国印象派作曲家。他打破传统和声规则，用音乐描绘光影与氛围，开创了 20 世纪音乐的全新语言。",
+      "era": "印象主义"
+    },
+    {
+      "id": "smetana",
+      "name": "斯美塔那",
+      "latinName": "Smetana",
+      "initial": "S",
+      "colorHex": "#7a8e5e",
+      "biography": "贝德里赫·斯美塔那（1824-1884），捷克民族乐派奠基人。晚年完全失聪后仍创作了交响诗套曲《我的祖国》，其中《沃尔塔瓦河》是捷克的精神象征。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "holst",
+      "name": "霍尔斯特",
+      "latinName": "Holst",
+      "initial": "H",
+      "colorHex": "#5e6e8a",
+      "biography": "古斯塔夫·霍尔斯特（1874-1934），英国作曲家。《行星组曲》是他最著名的作品，每颗行星对应不同的音乐性格，深刻影响了后世的电影配乐。",
+      "era": "20 世纪"
+    },
+    {
+      "id": "mahler",
+      "name": "马勒",
+      "latinName": "Mahler",
+      "initial": "M",
+      "colorHex": "#6b5e7a",
+      "biography": "古斯塔夫·马勒（1860-1911），奥地利晚期浪漫主义作曲家、指挥家。他的交响曲规模宏大、情感极端，探讨生死与存在的终极问题。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "brahms",
+      "name": "勃拉姆斯",
+      "latinName": "Brahms",
+      "initial": "B",
+      "colorHex": "#7e6e5e",
+      "biography": "约翰内斯·勃拉姆斯（1833-1897），德国浪漫主义作曲家。他被视为贝多芬的继承者，音乐深沉内敛，在古典形式中注入浪漫情感。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "shostakovich",
+      "name": "肖斯塔科维奇",
+      "latinName": "Shostakovich",
+      "initial": "S",
+      "colorHex": "#5e5e6e",
+      "biography": "德米特里·肖斯塔科维奇（1906-1975），苏联作曲家。在斯大林高压统治下坚持创作，他的交响曲充满讽刺、抗争与悲剧性，是 20 世纪最重要的作曲家之一。",
+      "era": "20 世纪"
+    },
+    {
+      "id": "wagner",
+      "name": "瓦格纳",
+      "latinName": "Wagner",
+      "initial": "W",
+      "colorHex": "#8a5e5e",
+      "biography": "理查德·瓦格纳（1813-1883），德国歌剧革新者。他创造了「整体艺术作品」理念，歌剧《尼伯龙根的指环》是长达 15 小时的四联剧，改变了音乐戏剧的历史。",
+      "era": "浪漫主义"
+    },
+    {
+      "id": "chopin",
+      "name": "肖邦",
+      "latinName": "Chopin",
+      "initial": "C",
+      "colorHex": "#7a8a9a",
+      "biography": "弗雷德里克·肖邦（1810-1849），波兰作曲家、钢琴家，「钢琴诗人」。他几乎只为钢琴作曲，将这件乐器的表现力推向极致，夜曲、圆舞曲、练习曲皆为传世经典。",
+      "era": "浪漫主义"
+    }
+  ],
+  "works": [
+    {
+      "id": "vivaldi-spring",
+      "legacyID": "t1",
+      "stageID": 1,
+      "title": "四季 · 春",
+      "subtitle": "The Four Seasons, Op. 8 - Concerto No. 1 \"Spring\", RV 269",
+      "composerID": "vivaldi",
+      "minutes": 10,
+      "summary": "欢快明亮，零门槛的巴洛克名作",
+      "searchTerm": "Vivaldi Four Seasons Spring",
+      "recommendation": "Nigel Kennedy；I Musici（不同录音版本）",
+      "performerNote": "可分别搜索 Nigel Kennedy 与 I Musici 的录音，比较独奏风格与合奏音色。",
+      "genre": "协奏曲",
+      "listeningGuide": [
+        "先记住开场明亮的合奏主题，留意它如何在独奏段落之间返回。",
+        "听小提琴的短促回应，想象鸟鸣与流水；不必把每一个音都对应成画面。",
+        "完整听过三个乐章，比较中间慢乐章与两侧快乐章的气氛。"
+      ]
+    },
+    {
+      "id": "pachelbel-canon",
+      "legacyID": "t2",
+      "stageID": 1,
+      "title": "D 大调卡农",
+      "subtitle": "Canon in D Major",
+      "composerID": "pachelbel",
+      "minutes": 5,
+      "summary": "反复的低音之上，听见旋律层层展开",
+      "searchTerm": "Pachelbel Canon in D",
+      "recommendation": "Academy of St Martin in the Fields",
+      "performerNote": "英国顶级室内乐团，由 Neville Marriner 创立",
+      "genre": "室内乐",
+      "listeningGuide": [
+        "先把注意力放在低音：同一组和声不断循环。",
+        "听上方声部依次进入，分辨模仿与叠加带来的层次。",
+        "旋律越来越密时，再试着找回最初的低音循环。"
+      ]
+    },
+    {
+      "id": "beethoven-fur-elise",
+      "legacyID": "t3",
+      "stageID": 1,
+      "title": "致爱丽丝",
+      "subtitle": "Fur Elise, WoO 59",
+      "composerID": "beethoven",
+      "minutes": 3,
+      "summary": "钢琴入门第一课",
+      "searchTerm": "Beethoven Fur Elise",
+      "recommendation": "Daniel Barenboim",
+      "performerNote": "阿根廷裔以色列钢琴家、指挥家，贝多芬权威诠释者",
+      "genre": "钢琴独奏",
+      "listeningGuide": [
+        "记住开头两个相邻音之间的摇摆。",
+        "中段的色彩与力度改变后，留意熟悉的主题何时回来。",
+        "比较两位钢琴家的速度与停顿，感受同一旋律的不同语气。"
+      ]
+    },
+    {
+      "id": "dvorak-new-world-largo",
+      "legacyID": "t4",
+      "stageID": 1,
+      "title": "自新世界 · 第二乐章",
+      "subtitle": "Symphony No. 9 \"From the New World\", Op. 95 - II. Largo",
+      "composerID": "dvorak",
+      "minutes": 12,
+      "summary": "思乡的旋律，极其感人",
+      "searchTerm": "Dvorak New World Symphony Largo",
+      "recommendation": "Karajan / Berliner Philharmoniker",
+      "performerNote": "赫伯特·冯·卡拉扬，20 世纪最具影响力的指挥家，执掌柏林爱乐 35 年",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "听开头铜管和弦营造的空间，等待英国管独奏出现。",
+        "留意主旋律中的呼吸与句尾停顿。",
+        "中段情绪起伏后，比较主题再现时给你的感受。"
+      ]
+    },
+    {
+      "id": "saint-saens-swan",
+      "legacyID": "t5",
+      "stageID": 1,
+      "title": "动物狂欢节 · 天鹅",
+      "subtitle": "The Carnival of the Animals - The Swan",
+      "composerID": "saintsaens",
+      "minutes": 3,
+      "summary": "大提琴长线条与钢琴水波般的伴奏",
+      "searchTerm": "Saint-Saens Carnival Animals Swan",
+      "recommendation": "Yo-Yo Ma",
+      "performerNote": "马友友，华裔美国大提琴家，当代最知名的古典音乐家之一",
+      "genre": "室内乐",
+      "listeningGuide": [
+        "把大提琴的长线条与钢琴流动的伴奏分开听。",
+        "留意大提琴的换气感：哪些音像是在一句话的结尾？",
+        "第二遍只听钢琴，观察它如何托住旋律。"
+      ]
+    },
+    {
+      "id": "grieg-morning",
+      "legacyID": "t6",
+      "stageID": 1,
+      "title": "培尔金特 · 晨曲",
+      "subtitle": "Peer Gynt Suite No. 1, Op. 46 - Morning Mood",
+      "composerID": "grieg",
+      "minutes": 4,
+      "summary": "像日出一样自然舒展",
+      "searchTerm": "Grieg Peer Gynt Morning Mood",
+      "recommendation": "Karajan / Berliner Philharmoniker",
+      "performerNote": "赫伯特·冯·卡拉扬，20 世纪最具影响力的指挥家，执掌柏林爱乐 35 年",
+      "genre": "管弦乐",
+      "listeningGuide": [
+        "听长笛与双簧管如何接过同一个主题。",
+        "留意旋律从木管扩展到整个乐队的过程。",
+        "比较开场与高潮的音量和音色，不必把它当作特定风景的写实。"
+      ]
+    },
+    {
+      "id": "mozart-symphony-40",
+      "legacyID": "t7",
+      "stageID": 2,
+      "title": "第 40 号交响曲",
+      "subtitle": "Symphony No. 40 in G minor, K. 550",
+      "composerID": "mozart",
+      "minutes": 25,
+      "summary": "在紧迫与优雅之间，感受古典交响曲的结构",
+      "searchTerm": "Mozart Symphony No 40",
+      "recommendation": "Karl Bohm / Wiener Philharmoniker",
+      "performerNote": "奥地利指挥大师，莫扎特与施特劳斯的权威诠释者",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "第一乐章先抓住开头急切的短句，听它如何被分解与发展。",
+        "在慢乐章中留意旋律之下仍在推动的节奏。",
+        "完整听四个乐章，比较第三乐章舞步般的重音与终曲的奔涌。"
+      ]
+    },
+    {
+      "id": "beethoven-symphony-5",
+      "legacyID": "t8",
+      "stageID": 2,
+      "title": "第五交响曲「命运」",
+      "subtitle": "Symphony No. 5 in C minor, Op. 67",
+      "composerID": "beethoven",
+      "minutes": 33,
+      "summary": "命运在敲门 — 从黑暗走向光明",
+      "searchTerm": "Beethoven Symphony No 5",
+      "recommendation": "Carlos Kleiber / Wiener Philharmoniker",
+      "performerNote": "被誉为指挥中的指挥，极度完美主义，录音极少但每张皆为传奇",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "记住开场的短短短长节奏，尝试在其他声部中找到它。",
+        "第三乐章接向第四乐章时不要暂停，感受渐渐积聚的张力。",
+        "听终曲的明亮音色如何回应开篇的紧迫感。"
+      ]
+    },
+    {
+      "id": "tchaikovsky-piano-concerto-1",
+      "legacyID": "t9",
+      "stageID": 2,
+      "title": "第一钢琴协奏曲",
+      "subtitle": "Piano Concerto No. 1 in B-flat minor, Op. 23",
+      "composerID": "tchaikovsky",
+      "minutes": 35,
+      "summary": "宏大的开场，钢琴与乐队的热烈对话",
+      "searchTerm": "Tchaikovsky Piano Concerto 1",
+      "recommendation": "Argerich / Abbado",
+      "performerNote": "阿格里奇是阿根廷钢琴女王，阿巴多是意大利诗意指挥大师",
+      "genre": "协奏曲",
+      "listeningGuide": [
+        "听开场圆号与钢琴和弦：钢琴此时也在为乐队旋律伴奏。",
+        "留意独奏与乐队是相互对话，还是一起推进。",
+        "比较慢乐章的轻盈与末乐章的舞蹈节奏。"
+      ]
+    },
+    {
+      "id": "mendelssohn-violin-concerto",
+      "legacyID": "t10",
+      "stageID": 2,
+      "title": "小提琴协奏曲",
+      "subtitle": "Violin Concerto in E minor, Op. 64",
+      "composerID": "mendelssohn",
+      "minutes": 25,
+      "summary": "抒情旋律与轻盈技巧相互交织",
+      "searchTerm": "Mendelssohn Violin Concerto",
+      "recommendation": "Anne-Sophie Mutter",
+      "performerNote": "德国小提琴家，卡拉扬的爱徒，当代最杰出的小提琴家之一",
+      "genre": "协奏曲",
+      "listeningGuide": [
+        "小提琴很快就进入主题，留意它与传统长篇乐队引子的不同。",
+        "在第一乐章的独奏华彩中，听双音与琶音如何延续音乐。",
+        "连续听三个乐章，感受从忧郁到轻快的转变。"
+      ]
+    },
+    {
+      "id": "schubert-unfinished",
+      "legacyID": "t11",
+      "stageID": 2,
+      "title": "第八交响曲「未完成」",
+      "subtitle": "Symphony No. 8 \"Unfinished\", D. 759",
+      "composerID": "schubert",
+      "minutes": 25,
+      "summary": "只有两个乐章，神秘而忧伤",
+      "searchTerm": "Schubert Unfinished Symphony",
+      "recommendation": "Carlos Kleiber",
+      "performerNote": "被誉为指挥中的指挥，极度完美主义，录音极少但每张皆为传奇",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "从低弦的暗色引子开始，等待木管唱出旋律。",
+        "注意抒情旋律与突然的强奏之间的反差。",
+        "第二乐章结束后，记录两个乐章留给你的整体感觉。"
+      ]
+    },
+    {
+      "id": "rachmaninoff-piano-concerto-2",
+      "legacyID": "t12",
+      "stageID": 2,
+      "title": "第二钢琴协奏曲",
+      "subtitle": "Piano Concerto No. 2 in C minor, Op. 18",
+      "composerID": "rachmaninoff",
+      "minutes": 35,
+      "summary": "绵长旋律与丰厚和声，感受浪漫主义的表达",
+      "searchTerm": "Rachmaninoff Piano Concerto 2",
+      "recommendation": "Zimerman / Ozawa",
+      "performerNote": "齐默尔曼是波兰钢琴大师，小泽征尔是日本传奇指挥家",
+      "genre": "协奏曲",
+      "listeningGuide": [
+        "留意开头钢琴和弦如何逐渐加强，随后让出乐队的主旋律。",
+        "听钢琴流动的音型与乐队长旋律怎样相互支撑。",
+        "在慢乐章中找一处你最喜欢的对话，重复听一遍。"
+      ]
+    },
+    {
+      "id": "bach-air",
+      "legacyID": "t13",
+      "stageID": 3,
+      "title": "G 弦上的咏叹调",
+      "subtitle": "Air on the G String, BWV 1068",
+      "composerID": "bach",
+      "minutes": 5,
+      "summary": "巴赫入门，纯净庄严",
+      "searchTerm": "Bach Air on G String",
+      "recommendation": "Karl Richter",
+      "performerNote": "德国管风琴家、指挥家，巴赫音乐的权威诠释者",
+      "genre": "管弦乐",
+      "listeningGuide": [
+        "听上方绵长的旋律，同时感受低音稳定的步伐。",
+        "注意不同弦乐声部并非总在齐奏，而是各自延伸。",
+        "这是组曲中的 Air；常见曲名与后来的小提琴改编有关。"
+      ]
+    },
+    {
+      "id": "bach-cello-prelude",
+      "legacyID": "t14",
+      "stageID": 3,
+      "title": "大提琴组曲第一号 · 前奏曲",
+      "subtitle": "Cello Suite No. 1 in G Major, BWV 1007 - Prelude",
+      "composerID": "bach",
+      "minutes": 3,
+      "summary": "一把大提琴的宇宙",
+      "searchTerm": "Bach Cello Suite 1 Prelude",
+      "recommendation": "Yo-Yo Ma",
+      "performerNote": "马友友，华裔美国大提琴家，当代最知名的古典音乐家之一",
+      "genre": "独奏",
+      "listeningGuide": [
+        "开头的分解和弦建立了怎样的空间感？",
+        "留意相似音型下面和声的变化，而不只追逐每个音。",
+        "听接近尾声时停留与推进的变化，感受最后的落点。"
+      ]
+    },
+    {
+      "id": "debussy-clair-de-lune",
+      "legacyID": "t15",
+      "stageID": 3,
+      "title": "月光",
+      "subtitle": "Clair de Lune, from Suite bergamasque, L. 75",
+      "composerID": "debussy",
+      "minutes": 5,
+      "summary": "印象派代表，像水彩画",
+      "searchTerm": "Debussy Clair de Lune",
+      "recommendation": "Zimerman",
+      "performerNote": "克里斯蒂安·齐默尔曼，波兰钢琴家，以极度严谨和完美的音色著称",
+      "genre": "钢琴独奏",
+      "listeningGuide": [
+        "先感受开场的留白，留意声音消失后的安静。",
+        "中段流动加快时，比较低音和旋律的层次。",
+        "主题返回后，听它怎样逐渐淡出。"
+      ]
+    },
+    {
+      "id": "debussy-faun",
+      "legacyID": "t16",
+      "stageID": 3,
+      "title": "牧神午后前奏曲",
+      "subtitle": "Prelude a l'apres-midi d'un faune, L. 86",
+      "composerID": "debussy",
+      "minutes": 10,
+      "summary": "让旋律与音色带你进入朦胧的音乐空间",
+      "searchTerm": "Debussy Prelude Afternoon Faun",
+      "recommendation": "Karajan / Berliner Philharmoniker",
+      "performerNote": "赫伯特·冯·卡拉扬，20 世纪最具影响力的指挥家，执掌柏林爱乐 35 年",
+      "genre": "管弦乐",
+      "listeningGuide": [
+        "记住开头长笛游移的旋律，不急着寻找整齐的节拍。",
+        "听竖琴、木管和弦乐之间柔和的色彩交接。",
+        "旋律再次出现时，比较它周围的配器有何变化。"
+      ]
+    },
+    {
+      "id": "smetana-vltava",
+      "legacyID": "t17",
+      "stageID": 3,
+      "title": "沃尔塔瓦河",
+      "subtitle": "Vltava (The Moldau), from Ma vlast",
+      "composerID": "smetana",
+      "minutes": 12,
+      "summary": "用音乐画一条河，画面感极强",
+      "searchTerm": "Smetana Vltava Moldau",
+      "recommendation": "Kubelik / Czech Philharmonic",
+      "performerNote": "捷克指挥家库贝利克与捷克爱乐，演绎本国作品最为地道",
+      "genre": "管弦乐",
+      "listeningGuide": [
+        "从木管细密的音型中，听水流意象如何渐渐汇聚。",
+        "主旋律出现后，留意途中舞蹈、夜色与急流般段落的对比。",
+        "主题最后再现时，比较它与初次出现的规模和力量。"
+      ]
+    },
+    {
+      "id": "holst-jupiter",
+      "legacyID": "t18",
+      "stageID": 3,
+      "title": "行星组曲 · 木星",
+      "subtitle": "The Planets, Op. 32 - IV. Jupiter",
+      "composerID": "holst",
+      "minutes": 8,
+      "summary": "热烈的舞蹈节奏与宽广的中段旋律",
+      "searchTerm": "Holst Planets Jupiter",
+      "recommendation": "Karajan / Berliner Philharmoniker",
+      "performerNote": "赫伯特·冯·卡拉扬，20 世纪最具影响力的指挥家，执掌柏林爱乐 35 年",
+      "genre": "管弦乐",
+      "listeningGuide": [
+        "听开头跳跃的节奏与不断更换的乐队色彩。",
+        "中段宽广的旋律出现时，感受速度感和重音的改变。",
+        "熟悉中段后，再听它前后热闹音乐的回归。"
+      ]
+    },
+    {
+      "id": "beethoven-symphony-9",
+      "legacyID": "t19",
+      "stageID": 4,
+      "title": "第九交响曲「合唱」",
+      "subtitle": "Symphony No. 9 in D minor, Op. 125 \"Choral\"",
+      "composerID": "beethoven",
+      "minutes": 65,
+      "summary": "人类音乐史的巅峰之一",
+      "searchTerm": "Beethoven Symphony 9 Choral",
+      "recommendation": "Furtwangler 1951 Bayreuth",
+      "performerNote": "富特文格勒指挥的 1951 年拜罗伊特现场录音，是可供比较的历史版本之一。",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "为全曲留出完整时间，也可以先分乐章熟悉。",
+        "终乐章开始时，听低弦怎样回应前面乐章的片段。",
+        "留意欢乐颂主题从器乐到人声、从朴素到宏大的变化。"
+      ]
+    },
+    {
+      "id": "mahler-resurrection",
+      "legacyID": "t20",
+      "stageID": 4,
+      "title": "第二交响曲「复活」",
+      "subtitle": "Symphony No. 2 \"Resurrection\"",
+      "composerID": "mahler",
+      "minutes": 80,
+      "summary": "从死亡到复活，终曲会让你起鸡皮疙瘩",
+      "searchTerm": "Mahler Symphony 2 Resurrection",
+      "recommendation": "Bernstein / New York Philharmonic",
+      "performerNote": "伯恩斯坦是美国传奇指挥家、作曲家，指挥风格热情奔放",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "把五个乐章当作一段长旅程，允许自己分次聆听。",
+        "留意独唱与合唱加入前后，音乐空间如何改变。",
+        "听最后一段时，关注音量之外的层次与渐进过程。"
+      ]
+    },
+    {
+      "id": "tchaikovsky-pathetique",
+      "legacyID": "t21",
+      "stageID": 4,
+      "title": "第六交响曲「悲怆」",
+      "subtitle": "Symphony No. 6 \"Pathetique\", Op. 74",
+      "composerID": "tchaikovsky",
+      "minutes": 45,
+      "summary": "从热烈到沉静，一部以慢乐章结束的交响曲",
+      "searchTerm": "Tchaikovsky Symphony 6 Pathetique",
+      "recommendation": "Mravinsky / Leningrad Philharmonic",
+      "performerNote": "穆拉文斯基执掌列宁格勒爱乐 50 年，肖斯塔科维奇多部交响曲的首演指挥",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "第一乐章里，比较低沉开头、抒情旋律与激烈爆发。",
+        "第二乐章带有不寻常的五拍律动，试着跟随而不强行数成三拍。",
+        "第三乐章的昂扬之后继续听终乐章，感受全曲如何走向安静。"
+      ]
+    },
+    {
+      "id": "brahms-symphony-4",
+      "legacyID": "t22",
+      "stageID": 4,
+      "title": "第四交响曲",
+      "subtitle": "Symphony No. 4 in E minor, Op. 98",
+      "composerID": "brahms",
+      "minutes": 40,
+      "summary": "秋天的音乐，内敛深沉",
+      "searchTerm": "Brahms Symphony 4",
+      "recommendation": "Carlos Kleiber / Wiener Philharmoniker",
+      "performerNote": "被誉为指挥中的指挥，极度完美主义，录音极少但每张皆为传奇",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "开头旋律由短小音程构成，留意它们如何连成长句。",
+        "比较中间两个乐章的温暖与明朗。",
+        "终乐章反复变化的基础上，听配器与情绪如何不断更新。"
+      ]
+    },
+    {
+      "id": "shostakovich-symphony-5",
+      "legacyID": "t23",
+      "stageID": 4,
+      "title": "第五交响曲",
+      "subtitle": "Symphony No. 5 in D minor, Op. 47",
+      "composerID": "shostakovich",
+      "minutes": 45,
+      "summary": "紧张与抒情交替，终曲留下多种解读空间",
+      "searchTerm": "Shostakovich Symphony 5",
+      "recommendation": "Bernstein / New York Philharmonic",
+      "performerNote": "伯恩斯坦是美国传奇指挥家、作曲家，指挥风格热情奔放",
+      "genre": "交响曲",
+      "listeningGuide": [
+        "听开场弦乐相互追逐的姿态，以及紧绷的节奏。",
+        "慢乐章中留意弦乐与木管的长线条。",
+        "比较不同录音的终曲速度；作品的情绪与含义可以有不同解读。"
+      ]
+    },
+    {
+      "id": "wagner-valkyries",
+      "legacyID": "t24",
+      "stageID": 4,
+      "title": "女武神骑行",
+      "subtitle": "Die Walkure - Ride of the Valkyries",
+      "composerID": "wagner",
+      "minutes": 5,
+      "summary": "先听这段，再决定要不要挑战整部歌剧",
+      "searchTerm": "Wagner Ride of the Valkyries",
+      "recommendation": "Solti / Vienna Philharmonic",
+      "performerNote": "索尔蒂与维也纳爱乐的歌剧录音可作为版本比较的起点。",
+      "genre": "歌剧选段",
+      "listeningGuide": [
+        "先听反复的节奏型，再辨认铜管奏出的主题。",
+        "留意高低声部如何叠加出向前冲的动势。",
+        "这是歌剧选段，完整歌剧还包含人物、文本与长篇叙事。"
+      ]
+    },
+    {
+      "id": "beethoven-moonlight",
+      "legacyID": "t25",
+      "stageID": 5,
+      "title": "月光奏鸣曲",
+      "subtitle": "Piano Sonata No. 14 \"Moonlight\", Op. 27 No. 2",
+      "composerID": "beethoven",
+      "minutes": 15,
+      "summary": "第一乐章静谧，第三乐章狂暴",
+      "searchTerm": "Beethoven Moonlight Sonata",
+      "recommendation": "Barenboim / Horowitz",
+      "performerNote": "巴伦博伊姆注重结构，霍洛维茨注重戏剧性，各有千秋",
+      "genre": "钢琴独奏",
+      "listeningGuide": [
+        "第一乐章里，分别听低音、持续的三连音与上方旋律。",
+        "第二乐章短暂改变气氛，留意它在整首作品中的过渡作用。",
+        "第三乐章速度与力度陡增，比较相同乐器呈现的两种性格。"
+      ]
+    },
+    {
+      "id": "chopin-nocturne-9-2",
+      "legacyID": "t26",
+      "stageID": 5,
+      "title": "夜曲 Op. 9 No. 2",
+      "subtitle": "Nocturne No. 2 in E-flat Major, Op. 9 No. 2",
+      "composerID": "chopin",
+      "minutes": 5,
+      "summary": "肖邦最经典的夜曲",
+      "searchTerm": "Chopin Nocturne Op 9 No 2",
+      "recommendation": "Rubinstein / Zimerman",
+      "performerNote": "鲁宾斯坦是肖邦演绎的黄金标准，齐默尔曼则更精雕细琢",
+      "genre": "钢琴独奏",
+      "listeningGuide": [
+        "听左手伴奏的摆动与右手歌唱般的旋律。",
+        "主题重复时，寻找逐渐丰富的装饰音。",
+        "比较不同钢琴家如何处理句尾的停顿和速度伸缩。"
+      ]
+    },
+    {
+      "id": "schubert-trout",
+      "legacyID": "t27",
+      "stageID": 5,
+      "title": "鳟鱼五重奏",
+      "subtitle": "Trout Quintet, D. 667",
+      "composerID": "schubert",
+      "minutes": 35,
+      "summary": "第四乐章的鳟鱼变奏活泼可爱",
+      "searchTerm": "Schubert Trout Quintet",
+      "recommendation": "Alfred Brendel",
+      "performerNote": "奥地利钢琴家，以深邃的知性诠释著称，舒伯特和贝多芬的权威",
+      "genre": "室内乐",
+      "listeningGuide": [
+        "注意这首五重奏中低音提琴带来的低音层次。",
+        "第四乐章的主题与变奏中，听旋律如何交给不同乐器。",
+        "听五件乐器如何对话，而不是只追踪钢琴。"
+      ]
+    },
+    {
+      "id": "beethoven-kreutzer",
+      "legacyID": "t28",
+      "stageID": 5,
+      "title": "克鲁采奏鸣曲",
+      "subtitle": "Violin Sonata No. 9 \"Kreutzer\", Op. 47",
+      "composerID": "beethoven",
+      "minutes": 35,
+      "summary": "托尔斯泰专门为它写了一部小说",
+      "searchTerm": "Beethoven Kreutzer Sonata",
+      "recommendation": "Perlman / Argerich",
+      "performerNote": "帕尔曼是以色列小提琴大师，与阿格里奇的合作火花四溅",
+      "genre": "室内乐",
+      "listeningGuide": [
+        "开头慢引子中，听小提琴与钢琴轮流陈述。",
+        "快段开始后，留意两件乐器势均力敌的交锋。",
+        "第二乐章的变奏与终曲的动感，分别带来怎样的亲密或张力？"
+      ]
+    }
+  ]
+}
