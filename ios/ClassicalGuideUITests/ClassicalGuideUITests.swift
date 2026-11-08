@@ -7,11 +7,20 @@ final class ClassicalGuideUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.buttons["nextWork"].waitForExistence(timeout: 10))
         saveScreenshot("Reading-Home")
+        reveal(app.buttons["nextWork"], in: app)
         app.buttons["nextWork"].tap()
         XCTAssertTrue(app.buttons["toggleListened"].waitForExistence(timeout: 5))
         saveScreenshot("Reading-Detail")
-        app.swipeUp(); app.swipeUp()
-        XCTAssertTrue(app.buttons["editNote"].waitForExistence(timeout: 5))
+        reveal(app.buttons["toggleListened"], in: app)
+        XCTAssertTrue(app.buttons["toggleListened"].isHittable)
+        saveScreenshot("Reading-Actions")
+        reveal(app.buttons["editNote"], in: app)
+        XCTAssertTrue(app.buttons["editNote"].isHittable)
+        saveScreenshot("Reading-Notes")
+        app.buttons["editNote"].tap()
+        XCTAssertTrue(app.textViews["noteText"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["saveNote"].isHittable)
+        saveScreenshot("Reading-Editor")
     }
     @MainActor func testLearningFlowPersistsAcrossLaunches() throws {
         let app = XCUIApplication()
@@ -58,6 +67,13 @@ final class ClassicalGuideUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["没有找到作品"].waitForExistence(timeout: 5))
         app.buttons["清除筛选"].tap()
         XCTAssertTrue(app.staticTexts["四季 · 春"].firstMatch.waitForExistence(timeout: 5))
+    }
+    @MainActor private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
+        for _ in 0..<12 {
+            if element.isHittable { return }
+            app.swipeUp()
+        }
+        XCTFail("无法滚动到操作控件：\(element.identifier)")
     }
     @MainActor private func saveScreenshot(_ name: String) {
         Thread.sleep(forTimeInterval: 0.6) // Let native control transitions settle before capture.
