@@ -1,0 +1,54 @@
+name: iOS
+on:
+  push:
+    paths: ['ios/**', 'scripts/**', '.github/workflows/ios.yml']
+  pull_request:
+    paths: ['ios/**', 'scripts/**', '.github/workflows/ios.yml']
+permissions:
+  contents: read
+concurrency:
+  group: ios-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  test:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        device: [iphone, ipad, iphone-accessibility]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select an available simulator
+        env:
+          DEVICE_KIND: ${{ matrix.device }}
+        run: |
+          DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c 'import json,sys,os; kind="iPhone" if os.environ["DEVICE_KIND"].startswith("iphone") else "iPad"; ds=[d for group in json.load(sys.stdin)["devices"].values() for d in group if kind in d["name"]]; ds.sort(key=lambda d: ("Pro Max" not in d["name"] if kind == "iPhone" else "Pro 13-inch" not in d["name"])); print(ds[0]["udid"])')
+          echo "DEVICE_ID=$DEVICE_ID" >> "$GITHUB_ENV"
+      - name: Configure dark mode and largest accessibility text
+        if: matrix.device == 'iphone-accessibility'
+        run: |
+          xcrun simctl boot "$DEVICE_ID"
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+          xcrun simctl ui "$DEVICE_ID" appearance dark
+          xcrun simctl ui "$DEVICE_ID" content_size accessibility-extra-extra-extra-large
+      - name: Test iPhone learning flows
+        if: matrix.device == 'iphone'
+        run: xcodebuild -jobs 2 -project ios/ClassicalGuide.xcodeproj -scheme ClassicalGuide -destination "platform=iOS Simulator,id=$DEVICE_ID" -parallel-testing-enabled NO -resultBundlePath build/Tests.xcresult CODE_SIGNING_ALLOWED=NO test
+      - name: Test reading layout
+        if: matrix.device != 'iphone'
+        run: xcodebuild -jobs 2 -project ios/ClassicalGuide.xcodeproj -scheme ClassicalGuide -destination "platform=iOS Simulator,id=$DEVICE_ID" -parallel-testing-enabled NO -only-testing:ClassicalGuideUITests/ClassicalGuideUITests/testReadingLayout -resultBundlePath build/Tests.xcresult CODE_SIGNING_ALLOWED=NO test
+      - name: Export screenshots
+        if: always()
+        run: |
+          if [ -d build/Tests.xcresult ]; then
+            xcrun xcresulttool export attachments --path build/Tests.xcresult --output-path build/Screenshots
+          fi
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-${{ matrix.device }}-test-results
+          path: |
+            build/Tests.xcresult
+            build/Screenshots
