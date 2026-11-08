@@ -25,7 +25,7 @@ App 无需登录，不含广告或追踪 SDK，不提供账号或自动云同步
 
 开发者：Zhu Hong
 支持：zivzhu@gmail.com
-官网：https://zhuhong.me
+官网：https://zhuhong.me/classical-guide/
 
 关键词
 古典音乐,入门,聆听,作曲家,交响曲,钢琴,音乐欣赏,学习,笔记,收藏,协奏曲
@@ -39,11 +39,14 @@ App 无需登录，不含广告或追踪 SDK，不提供账号或自动云同步
 版权
 2026 Zhu Hong
 
-支持 URL（发布前必须部署并核验）
+支持 URL（已部署并核验）
 https://zhuhong.me/classical-guide/
 
-隐私政策 URL（发布前必须部署并核验）
+隐私政策 URL（已部署并核验）
 https://zhuhong.me/classical-guide/privacy/
+
+内容与版权说明 URL
+https://zhuhong.me/classical-guide/credits/
 
 审核备注（英文）
 Classical Guide is a native SwiftUI classical-music learning and personal listening-journal app. No login or review account is required. All 28 work guides, 20 composer profiles, learning paths, and glossary content are bundled for offline use. Reviewers can search for “Moonlight”, open the work, bookmark it, mark it as listened, and save a note. These records persist across launches and can be exported/imported as JSON in Settings. Import merges records and preserves existing notes for conflicts. Settings also offers deletion of all local learning data. The Apple Music button opens an external HTTPS search URL and does not stream or download recordings in this app. Availability and playback conditions depend on the external music service. There are no ads, tracking SDKs, accounts, subscriptions or in-app purchases in this build.
@@ -52,4 +55,4 @@ Classical Guide is a native SwiftUI classical-music learning and personal listen
 免费，无广告、无内购。目标为包含中国大陆在内的尽可能全球发行。
 
 发行资料待补齐
-年龄分级问卷、App Review 联系电话、最终商店名称可用性；中国大陆发行所需的备案号及名称一致性需以 App Store Connect 的实际要求核对。不能把网站备案号自动视作 App 备案号。
+年龄分级、内容权利、App 隐私与发行地区设置尚待完成；审核联系人与 App 名称已保存。中国大陆发行所需的备案号及名称一致性需以 App Store Connect 的实际要求核对。不能把网站备案号自动视作 App 备案号。
