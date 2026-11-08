@@ -18,6 +18,8 @@ xcodebuild -project ios/ClassicalGuide.xcodeproj -scheme ClassicalGuide \
 
 App 图标沿用原项目的 `apple-touch-icon.png`（红底白色三行乐谱）。使用 `sh scripts/prepare-app-icon.sh` 可将原图导出为 iOS 所需的 1024×1024 不透明 PNG，保留原有配色与构图。仓库现有源图为 180×180，放大不会增加原图细节；后续如有更高分辨率原稿，可替换源图后重新导出。
 
+支持、隐私和内容版权页在 `website/classical-guide/` 维护。运行 `python3 scripts/sync-support-website.py /path/to/Web-V2` 同步到 Web V2 的 `classical-guide/` 子目录，并追加该目录的 Vercel 上传规则。App 的设置入口分别指向 `https://zhuhong.me/classical-guide/`、`privacy/` 与 `credits/`；这些页面在浏览器打开，需要联网。部署时应基于线上最新文件，仅更新该子目录，以保留其他 App 的页面。
+
 ## 已实现
 
 - 原生学习路径、下一首推荐、按阶段进度；全部内容离线可读。

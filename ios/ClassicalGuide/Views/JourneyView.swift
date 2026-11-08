@@ -11,11 +11,9 @@ struct JourneyView: View {
             VStack(alignment: .leading, spacing: 30) {
                 VStack(alignment: .leading, spacing: 12) {
                     SectionEyebrow(title: "A LITTLE CLASSICAL, EVERY DAY")
-                    Text("从一首喜欢的旋律，\n听见更大的世界。")
+                    Text("听更长的音乐")
                         .font(.system(.largeTitle, design: .serif, weight: .medium)).lineSpacing(6)
                         .fixedSize(horizontal: false, vertical: true)
-                    Text("28 首作品 · 5 段旅程 · 从容开始")
-                        .font(.subheadline).foregroundStyle(.secondary)
                     MusicStaff().padding(.top, 4)
                 }.padding(.top, 12)
 
@@ -73,7 +71,7 @@ struct JourneyView: View {
                 .frame(maxWidth: .infinity)
         }
         .background(GuideTheme.paper)
-        .navigationTitle("古典指南").navigationBarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .topBarTrailing) {
             NavigationLink { SettingsView() } label: { Image(systemName: "gearshape").accessibilityLabel("设置") }
         } }

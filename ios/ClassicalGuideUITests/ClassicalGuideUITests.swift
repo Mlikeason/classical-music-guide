@@ -26,7 +26,7 @@ final class ClassicalGuideUITests: XCTestCase {
         let app = XCUIApplication()
         app.launchArguments = ["-ui-testing", "-reset-ui-testing", "-AppleLanguages", "(zh-Hans)", "-AppleLocale", "zh_CN"]
         app.launch()
-        XCTAssertTrue(app.staticTexts["从一首喜欢的旋律，\n听见更大的世界。"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["听更长的音乐"].waitForExistence(timeout: 10))
         saveScreenshot("01-Journey")
         app.tabBars.buttons["曲库"].tap()
         let search = app.searchFields.firstMatch
